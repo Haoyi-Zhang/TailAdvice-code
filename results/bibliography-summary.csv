@@ -1,0 +1,14 @@
+metric,value
+bibliography_entries,72
+minimum_required_entries,55
+unique_cited_keys,72
+verification_ledger_rows,72
+doi_locators,63
+arxiv_locators,4
+isbn_locators,3
+official_url_locators,2
+undefined_citations,0
+uncited_entries,0
+nocite_commands,0
+errors,0
+status,passed

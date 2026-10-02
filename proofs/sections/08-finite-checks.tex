@@ -1,0 +1,88 @@
+\section{Exact finite consequences and negative controls}\label{sec:finite}
+The proofs above contain limiting and stationary arguments that cannot be established by bounded execution. We nevertheless check the finite scheduling rules and several algebraic consequences exactly. The purpose is to expose implementation mistakes in the proposed policy, benchmark, or encoding, not to turn a count of generated instances into evidence of an asymptotic tail law.
+
+\subsection{A separate finite deadline oracle}
+The main finite campaign uses all multisets of one through five jobs from the six release/size pairs with release in $\{0,1,2\}$ and size in $\{1,2\}$. There are
+\[
+ \sum_{n=1}^5\binom{n+5}{5}=461
+\]
+such inputs. For each, an exhaustive integer-slot oracle searches relative deadlines from the largest size upward. Its states record the integer time and the remaining integer processing requirements. At each slot it tries every available unfinished job, as well as deliberate idling. A state is infeasible when an unfinished job has reached its relative deadline.
+
+This oracle does not use the workload identity to determine its answer. Its returned optimum agreed with FCFS on all 461 inputs. It visited 188,745 states across the searches. It is an oracle for the stated slotted model; the general continuous-time identity is supplied by Lemma~\ref{lem:workload}, not inferred from this agreement.
+
+For each input we simulated guards $1/4$, $1/2$, and $3/4$, giving 1,383 policy comparisons. Arrival times, rates, residuals, and completions were rational throughout. A trace checker recomputed capacity, conservation, active intervals, work conservation, prefix reservation, and attained-service domination over PS at speed $1-\delta$. Separately, a reference implementation reconstructed policy breakpoints without consuming production segments; it matched 2,856 completion vectors from 714 rational inputs under four speed--guard configurations. Three mutated rules---youngest protection, an extra sharing denominator, and an omitted reserve---produced different vectors. All finite maximum-flow comparisons satisfied Theorem~\ref{thm:guard-competitive}. The guarded integer schedules needed at most 20 bits per completion numerator or denominator.
+
+The rate selector uses only the active set and oldest-job order. Sizes are ground truth for detecting completion events, but are not consulted when selecting rates; this is the relevant nonclairvoyance distinction.
+
+\subsection{Controls that distinguish the claimed invariant}
+Replacing the oldest-job reservation by a youngest-job reservation produces a valid work-conserving schedule but invalidates the prefix proof. On the 49-job control instance with guard $1/2$, offline maximum flow is one. Correct guarded sharing has maximum flow approximately $1.735241$, while the youngest-reservation control has maximum flow $13/4>2$. The prefix-reservation checker rejects the latter. A separate corruption that adds one to every reported completion is also rejected by the service/active-interval checks.
+
+These controls test different failures. The youngest-job control preserves ordinary feasibility and capacity, so a checker that only verifies served work would miss the scheduling defect. The completion corruption tests the trace certificate rather than the rate choice. Neither control is a hostile workload against an external system; both are finite synthetic mathematical inputs.
+
+Boundary tests additionally cover empty and singleton inputs, coincident arrivals and completions, zero and full reservation endpoints in the finite simulator, time translation, common rational scaling of releases and sizes, invalid inputs, malformed traces, and speed-augmented comparisons. Zero reservation is tested as ordinary PS, not asserted to have the guarded policy's finite factor. Full reservation is tested as FCFS, not assigned the positive theorem's strictly positive residual PS capacity.
+
+\subsection{A claim-to-check boundary}\label{sec:finite-boundary}
+The campaign is organized around falsifiable interfaces rather than one ``all tests passed'' flag. Table~\ref{tab:check-boundary} states what each executable layer can reject and what remains mathematical. FCFS/oracle and production/reference agreement exercise separately written paths, while emitted traces are recomputed rather than trusted; none of these finite agreements proves the corresponding all-input lemma.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Executable checks and their proof boundary.  ``All'' in the last column refers to the theorem's quantified domain, not to the enumerated sample.}\label{tab:check-boundary}
+\begin{tabular}{@{}L{0.22\textwidth}L{0.34\textwidth}L{0.34\textwidth}@{}}
+\toprule
+Layer & What the executable evidence can reject & What still requires the written proof\\
+\midrule
+Deadline oracle & Incorrect finite optimum or FCFS implementation on the enumerated integer instances & Workload optimality for arbitrary real releases, sizes, and input lengths\\
+Trace certificate & Capacity, conservation, active-interval, work-conservation, and prefix-reservation violations & Exact factor for all finite inputs and the limiting tightness construction\\
+PS comparison & Failure of attained-service domination on checked rational traces & Stationary residual law and pathwise domination for all sample paths\\
+Algebra checks & Incorrect count recurrence, Eulerian coefficients, moments, or rational bin inequalities & Infinite recurrences, invariant-measure identification, and the covering infimum\\
+Negative controls & A checker too weak to distinguish feasibility from the claimed invariant & Absence of every possible implementation or proof error\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The controls were chosen to preserve one layer while breaking another.  Youngest-job reservation remains feasible and work conserving but violates the prefix invariant.  A shifted completion report can preserve the rate rule but violates service accounting.  An ordinary geometric count is a legitimate PS count law in the system without a permanent customer, yet it fails the balance recurrence for the comparison system actually used.  These are more discriminating than malformed inputs that every parser would reject.
+
+Reproduction separates exact outputs from symbolic constants.  A second layer of exact arithmetic audits 16 interfaces: count convolutions, conditional share inequalities, Pareto identities, covers, regenerative ratios, and the strict capacity deficit.  It checks 71 strict-gap choices and 71 equality substitutions; equality correctly leaves the current method without a positive interval.  Wrong count laws, a missing tag in a denominator, and time weighting in place of arrival weighting are rejected.  These diagnostics expose algebra or quantifier errors, but cannot prove invariant measures, a uniform law of large numbers, or transfer under regular variation.  No pass condition observes a desired tail; the limit claims remain written proof obligations.
+
+\subsection{Finite encodings and analytic examples}
+Table~\ref{tab:advice} gives an exact rational construction on $\theta\in[2,512]$ with margin $\eps=1/8$ and grid denominator 1024. There are 31 public entries across the five separately constructed codebooks. Exact endpoint and midpoint selections, inequality checks, and out-of-envelope rejections were performed. The table's infimum column comes from Theorem~\ref{thm:advice-intro}; the constructed bound is the exact maximum $\widehat C_j/q_{j-1}$ for the delivered rational entries.
+
+\begin{table}[t]
+\centering
+\caption{Finite codebooks on $[2,512]$. The first bound is an analytic infimum, not necessarily attained. The construction uses positive margin $1/8$ and finite rational endpoints.}\label{tab:advice}
+\begin{tabular}{rrrr}
+\toprule
+Bits $b$ & Policies $2^b$ & Infimum & Constructed bound\\
+\midrule
+0 & 1 & $256$ & $288$\\
+1 & 2 & $16$ & $18$\\
+2 & 4 & $4$ & $9/2$\\
+3 & 8 & $2$ & $9/4$\\
+4 & 16 & $\sqrt{2}$ & $26073/16384$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The artifact also verifies 256 instances of the permanent-customer count-balance identity, 32 moment inequalities, and the Eulerian polynomial identity through order eight. A plain geometric count, incorrectly substituted for the permanent-customer count, fails the balance check. These finite identities help detect a missing factor $n+1$; the stationary-law proof still requires the residual-state argument of Lemma~\ref{lem:ps-invariant}.
+
+Table~\ref{tab:tightness} evaluates six finite members of the deterministic tightness family. All have offline maximum flow one. The displayed responses are rounded for reading; the corresponding fractions are retained in the artifact. Their rational completion representations use at most 457 bits. No convergence rate or limiting supremum is inferred from these six values; Theorem~\ref{thm:guard-tight} proves the limit using a fixed-$\eta$ bound followed by $\eta\downarrow0$.
+
+\begin{table}[t]
+\centering
+\caption{Finite root responses in the tightness family. The last column is the analytically proved competitive supremum. Finite values below it are not estimates of a stationary tail.}\label{tab:tightness}
+\begin{tabular}{rrrrr}
+\toprule
+Guard & $1/h$ & Jobs & Root response & Supremum\\
+\midrule
+$1/4$ & 8 & 41 & 2.448618 & 4\\
+$1/4$ & 16 & 81 & 2.914706 & 4\\
+$1/2$ & 4 & 13 & 1.403571 & 2\\
+$1/2$ & 8 & 25 & 1.592010 & 2\\
+$1/2$ & 16 & 49 & 1.735241 & 2\\
+$1/2$ & 32 & 97 & 1.834847 & 2\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All finite checks use one worker and standard-library exact arithmetic. The largest illustrated instance has 97 jobs. There is no random seed because no random sampling is performed. In particular, there is no finite service-size cutoff used to estimate a heavy-tail exponent, no warm-up heuristic for a stationary simulation, and no empirical production-latency claim. The truncation by $K$ in the converse is a fixed analytic device inside a proof; it is not a simulated replacement of the service distribution.

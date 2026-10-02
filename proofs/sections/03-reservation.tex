@@ -1,0 +1,104 @@
+\section{Oldest-job reservation and its exact competitive factor}\label{sec:reservation}
+\subsection{The guarded-sharing rule}
+Fix $\delta\in(0,1)$. At time $t$ with active set $J(t)$ of size $N(t)>0$, let $o(t)$ be the oldest active job in the fixed arrival order. The policy $\GP_\delta$ assigns
+\begin{equation}\label{eq:guard-rule}
+ s_i(t)=\frac{1-\delta}{N(t)}+\delta\ind\{i=o(t)\},
+ \qquad i\in J(t).
+\end{equation}
+It idles exactly when $J(t)$ is empty. Rates change only at arrivals and completions. The rule is causal, work conserving, shift invariant, and regenerative. It does not need the service law, the load, or individual job sizes after $\delta$ has been selected.
+
+The ideal model permits exact simultaneous sharing. It is not a claim that a time-sliced implementation with context-switch costs has identical completion times. In an event-driven finite model, sizes are used to calculate when a simulated completion occurs; this does not make the rate rule size aware.
+
+\begin{lemma}[Arrival-prefix reservation]\label{lem:reservation}
+Fix a time $a$ in a finite run. Let $P(a)$ be the jobs released by $a$, and let $\tau_a$ be the time when every such job has completed. For every $t\in[a,\tau_a]$, the service delivered after $a$ to jobs in $P(a)$ is at least $\delta(t-a)$.
+\end{lemma}
+\begin{proof}
+At every time in $[a,\tau_a)$, at least one job of $P(a)$ is active. Every job outside $P(a)$ arrived later than every member of this prefix. Thus the oldest active job belongs to $P(a)$ and receives the reserved rate $\delta$. Additional shared service to prefix jobs is nonnegative. Integrating the prefix's total rate over $[a,t]$ gives the result. Isolated arrival or completion instants do not affect the integral.
+\end{proof}
+
+\begin{theorem}[Deterministic competitive guarantee]\label{thm:guard-competitive}
+For every finite input $I$ and every $\delta\in(0,1)$,
+\begin{equation}\label{eq:guard-competitive}
+ \MF_{\GP_\delta}(I)\leq\frac{\OPT(I)}{\delta}.
+\end{equation}
+More precisely, a job released at $a$ completes by $a+W_I(a+)/\delta$.
+\end{theorem}
+\begin{proof}
+At time $a$, the remaining work of $P(a)$ equals $W_I(a+)$, since no later job has arrived. No new work is ever added to this prefix. If it were still unfinished after $W_I(a+)/\delta$ additional time, Lemma~\ref{lem:reservation} would force more than its total remaining work to have been served. Therefore the entire prefix, including the specified job, completes within that time. Lemma~\ref{lem:workload} gives $W_I(a+)\leq\OPT(I)$, proving the maximum-flow bound.
+\end{proof}
+
+Notice that the argument reserves service for a set whose membership is fixed at $a$, even though its oldest member changes as jobs complete. A statement only about the original oldest job's rate would not establish the bound for every job. Reserving the same rate for the youngest job does not have this prefix property; later arrivals can continually receive the reservation instead.
+
+\subsection{A finite family approaching the factor}
+The bound in Theorem~\ref{thm:guard-competitive} is exact as a supremum. This matters when the advice objective compares the actual competitive factors of different policies, rather than arbitrary loose certificates.
+
+\begin{theorem}[Exact factor of guarded sharing]\label{thm:guard-tight}
+For every $\delta\in(0,1)$,
+\begin{equation}\label{eq:guard-tight}
+ c(\GP_\delta)=1/\delta.
+\end{equation}
+The supremum is approached by finite inputs with offline maximum flow equal to one.
+\end{theorem}
+\begin{proof}
+Put $r=1-\delta/2$ and choose a horizon $H>1/\delta$. For a positive mesh $h$, release a job of size one at time zero. Release a job of size $rh$ at every time $kh\leq H$, $k\geq1$. Call the resulting finite input $I_h$.
+
+At release time $kh$, the unreflected workload started by the root is $1-(1-r)kh\leq1$. An excursion after an empty instant has height at most $rh$. For $rh\leq1$, the maximum workload is therefore exactly one, attained at time zero. Lemma~\ref{lem:workload} yields $\OPT(I_h)=1$.
+
+Let $\tau_h$ be the root's completion time under $\GP_\delta$. The upper bound already proved gives $\tau_h\leq1/\delta<H$. Until $\tau_h$, the root is the oldest job. It receives at least rate $\delta$, so the aggregate service to later jobs by time $t<\tau_h$ is at most $(1-\delta)t$. Their released work is at least $r(t-h)$. Their unserved work is consequently at least
+\begin{equation}\label{eq:tight-pending-work}
+ \frac\delta2t-rh.
+\end{equation}
+Each such job has size $rh$, so this lower bound also bounds their number after division by $rh$ whenever it is positive.
+
+Fix $\eta\in(0,1)$. The root cannot complete before time one, so it is unfinished at $\eta$. For $h\leq\delta\eta/(4r)$ and $t\in[\eta,\tau_h)$, equation~\eqref{eq:tight-pending-work} is at least $\delta\eta/4$. There are at least $\delta\eta/(4rh)$ unfinished later jobs. Thus the root's rate on this interval is at most
+\begin{equation}\label{eq:tight-root-rate}
+ \delta+\frac{4r(1-\delta)h}{\delta\eta}.
+\end{equation}
+It receives at most $\eta$ service before $\eta$. Writing $K_\eta=4r(1-\delta)/(\delta\eta)$ and integrating~\eqref{eq:tight-root-rate} gives
+\[
+ 1\leq\eta+(\delta+K_\eta h)(\tau_h-\eta),
+ \qquad
+ \tau_h\geq\eta+\frac{1-\eta}{\delta+K_\eta h}.
+\]
+For fixed $\eta$, let $h\downarrow0$. Then let $\eta\downarrow0$. We obtain $\liminf_{h\downarrow0}\tau_h\geq1/\delta$. Since $\MF_{\GP_\delta}(I_h)\geq\tau_h$ and $\OPT(I_h)=1$, this proves the matching lower bound on the supremum.
+\end{proof}
+
+Every member of this family is finite; the limiting argument changes the mesh and hence the number of jobs. It does not give the online policy knowledge of the finite horizon. Nor is it a stochastic input fitted to a desired tail slope. Its role is to establish the deterministic competitive factor exactly.
+
+\subsection{Why processor sharing alone does not settle the problem}
+A positive tail result for ordinary PS cannot substitute for Theorem~\ref{thm:guard-competitive}. The following direct construction isolates the missing maximum-flow guarantee.
+
+\begin{proposition}[Unbounded maximum-flow factor of PS]\label{prop:ps-unbounded}
+Ordinary unit-speed PS has no finite competitive factor for maximum flow time, even on finite inputs with $\OPT=1$.
+\end{proposition}
+\begin{proof}
+Choose an arbitrarily large horizon $H>1$ and a mesh $h>0$ so small that $2hH+h^2<1$. Release a root of size one at time zero and jobs of size $h$ at all times $kh\leq H$. The workload immediately after each release is at most one, and its initial value is one. Hence $\OPT=1$.
+
+Suppose the root has not yet completed, and let $s(t)$ be its attained service. The server has been busy throughout $[0,t]$. The aggregate service to later jobs is $t-s(t)$, while their released work is at least $t-h$. Their remaining work is at least $s(t)-h$. Because each has size at most $h$, the total active count, including the root, is at least $s(t)/h$ when $s(t)\geq h$. Under PS this implies $s'(t)\leq h/s(t)$ on that region. On the region $s(t)<h$ we simply have $s(t)^2<h^2$. Integration after the first crossing of $h$ therefore gives
+\[
+ s(t)^2\leq h^2+2ht
+\]
+until completion and for $t\leq H$. Completion by $H$ would imply $1\leq h^2+2hH<1$, a contradiction. Thus the root's response exceeds $H$. Since $H$ was arbitrary and $\OPT=1$, no finite factor is possible.
+\end{proof}
+
+This example does not contradict a stationary PS tail theorem. A deterministic factor quantifies over every finite sequence, including an arbitrarily finely spaced stream that keeps work behind one older job. A stationary theorem instead fixes a load and an iid law before taking a response threshold to infinity. Guarded sharing bridges these objectives only when the reservation leaves enough capacity for its PS comparison.
+
+\subsection{A pathwise slower-PS comparison}\label{sec:domination}
+We need a comparison stronger than an average service statement. The next lemma applies to the entire response of each job on a fixed finite input.
+
+\begin{lemma}[Per-job domination]\label{lem:ps-domination}
+Fix $r>0$. Suppose a work-conserving sharing policy $A$, whenever it has $N_A>0$ active jobs, gives each active job at least $r/N_A$. Couple it with ordinary PS of speed $r$ on the same finite input, both initially empty. Every job has at least as much attained service under $A$ as under the PS queue, with service capped at its size. In particular, every completion under $A$ is no later.
+\end{lemma}
+\begin{proof}
+Consider the finite sequence of arrivals and completions in either system. Initially the claim holds. On any interval between these events, suppose attained-service domination holds at its start. Every job already completed in the slow system has then completed in $A$; hence the active jobs of $A$ form a subset of those of the slow system.
+
+The two active sets are constant inside this event interval. For every common unfinished job, the difference of its attained services is absolutely continuous and has derivative at least $r/N_A-r/N_{\PS}\geq0$ almost everywhere. It is therefore nondecreasing throughout the interval. A completion in $A$ caps its service at the full size and preserves domination. A slow completion cannot occur before its fast copy has received that much service. Arrivals add the same zero-service coordinate to both systems. Induction across the finite event sequence proves the claim, without differentiability at the event instants.
+\end{proof}
+
+For guarded sharing, rates are constant between events, so the comparison is piecewise linear. The proof also allows the rates of $A$ to vary measurably inside an event interval, because the lower bound on each derivative holds almost everywhere there.
+
+Applying the lemma with $r=1-\delta$ proves finite-input domination of $\GP_\delta$ over PS at speed $r$. If $\rho<r$, the slower queue has a stationary realization. Before a typical arrival, take the last time that slower workload was empty. A unit-speed work-conserving queue driven by the same past arrivals is also empty then: its workload is no larger than the slower workload. Start both policies at that common empty time and apply the finite-prefix comparison through the arrival and its completion. The slow busy interval contains finitely many arrivals almost surely. This constructs the stationary response domination
+\begin{equation}\label{eq:stationary-domination}
+ T_{\GP_\delta}\leq T_{\PS,r}
+\end{equation}
+under a common coupling. The next section supplies the tail estimate for the right-hand side without a higher-moment assumption on $B$.

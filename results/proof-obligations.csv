@@ -1,0 +1,17 @@
+obligation_id,obligation,evidence,status,remaining_boundary
+P01,workload benchmark and FCFS optimum,written proof plus exhaustive finite oracle,finite-checked,general continuous-time proof remains prose
+P02,arrival-prefix reservation,written integral argument plus trace checker,finite-checked,measurable-time generalization remains prose
+P03,exact guarded-sharing factor,written limiting family plus exact examples,finite-checked,supremum argument remains prose
+P04,slower-PS pathwise domination,written event-interval induction plus per-job finite traces,finite-checked,stationary common-empty-time extension remains prose
+P05,ordinary and permanent-customer invariant laws,generator proof plus balance/convolution/moment identities,algebra-checked,invariant-measure identification is not mechanized
+P06,immortal-tag coupling,written monotone coupling,written-only,coupling construction is not mechanized
+P07,conditional PS response bound,Cauchy-Schwarz/Jensen/Markov proof plus exhaustive step-path inequalities,algebra-checked,probability implication remains written
+P08,regular-variation integrals,written dyadic domination plus exact Pareto family checks,example-checked,general slowly varying case relies on written proof
+P09,guarded-sharing tail upper bound,P04-P08 composition,written-only,asymptotic composition is not proof-assistant checked
+P10,growing-interval LLN,written strong-law scaling argument,written-only,probability convergence is not simulated or mechanized
+P11,finite-prefix capacity deficit,written accounting plus exact rational parameter sweep,algebra-checked,event-to-path transfer remains written
+P12,regenerative cycle reward identity,written renewal-reward argument plus finite ratio checks,algebra-checked,stationary regenerative theorem is external background
+P13,integrated-tail obstruction,P10-P12 composition,written-only,strict inequality only; equality intentionally open
+P14,M-policy covering lower bound,written interval argument plus telescoping/grid checks,algebra-checked,continuous infimum proof remains prose
+P15,rational geometric codebook,constructive proof plus exact codebooks,finite-checked,infimum is not claimed attained
+P16,equality boundary,method-boundary checks show strict proof cannot be closed by finite truncation,not-claimed,"requires a new theorem, not a continuity argument"

@@ -1,0 +1,262 @@
+\section{A tail bound from a permanent-customer comparison}\label{sec:tail}
+The slower-PS comparison reduces the positive theorem to a queue with total service rate $r>\rho$. We derive the needed estimate rather than treating a fitted tail slope or a finite simulation as evidence for an asymptotic statement. The argument has two parts. A stationary PS environment gives a size-conditional bound of every integer order. Regular variation then permits an order larger than the service-tail index to be integrated without assuming that the corresponding service moment is finite.
+
+\subsection{Why a conditional PS bound is the needed interface}\label{sec:ps-interface}
+Processor sharing has an extensive transform, insensitivity, and heavy-tail literature~\cite{yashkov1987,altman2006,aalto2007,borst2003,boxmazwart2007}.  Those results explain why PS is a natural comparison discipline, but the present proof needs a narrower statement with a different quantifier order.  We require a bound conditional on the tagged size $B=b$, valid without assuming a density or a finite moment of order greater than the tail index.  Only after obtaining that bound do we integrate over $b$.  Importing an unconditional exact asymptotic would obscure this interface and, depending on its hypotheses, could impose smoothness or moment conditions not present in our model.
+
+The comparison also contains one permanent customer.  This device is not a claim that the original queue operates with permanent work.  It creates a stationary environment that dominates the finite tagged job until that job completes.  The ordinary-customer count then has a negative-binomial law with moments of every order, even when the equilibrium residual-size distribution has no mean.  The resulting high moment belongs to the \emph{count}, not to $B$.  This is the key reason the argument remains valid when $\E B^p=\infty$ for every integer $p>\alpha$.
+
+Classical queueing comparisons warn that service discipline can change delay asymptotics without changing the workload~\cite{shanthikumar1987,borst2003}.  We therefore prove both ingredients needed here: a pathwise rate domination from guarded sharing to a slower PS queue, and the invariant residual law used to evaluate that comparison.  The proof below is deliberately self-contained at these two interfaces.  It does not attempt to recover the sharper leading constants available for special PS models, and it does not assert that all disciplines dominated in workload are dominated in response time.
+
+\subsection{Residual distributions under processor sharing}\label{sec:ps-stationary}
+Throughout this section set
+\begin{equation}\label{eq:slow-load}
+ a=\frac{\lambda\mu}{r}<1,
+ \qquad
+ \nu(dx)=\frac{\Fbar(x)}{\mu}\,dx.
+\end{equation}
+The measure $\nu$ is a probability distribution because $\int_0^\infty\Fbar(x)\,dx=\mu$. It is the equilibrium residual-size law. It has a density even if $F$ has atoms. Its mean may be infinite, which will cause no difficulty.
+
+We consider two PS systems. The first is ordinary PS. The second contains one permanent customer that receives the same share as every ordinary customer but never departs. An ordinary customer still departs when its residual size reaches zero. Write $k=0$ or $k=1$ for the number of permanent customers and $N$ for the ordinary count.
+
+\begin{lemma}[Stationary residual law]\label{lem:ps-invariant}
+For ordinary PS at speed $r$, the stationary count has law
+\begin{equation}\label{eq:ordinary-count}
+ \Pp(N=n)=(1-a)a^n,\qquad n\geq0.
+\end{equation}
+With one permanent customer, there is a stationary ordinary-customer process with count law
+\begin{equation}\label{eq:permanent-count}
+ \Pp(N=n)=(n+1)(1-a)^2a^n,\qquad n\geq0.
+\end{equation}
+In both cases, conditional on $N=n$, the $n$ ordinary residual sizes are independent with law $\nu$.
+\end{lemma}
+\begin{proof}
+We verify the full residual law, not a birth--death description of the count alone. The count process need not itself be Markov for a general service law.
+
+Represent a state by an unordered finite vector of positive residual sizes. For a symmetric test function $f_n(x_1,\ldots,x_n)$, require boundary compatibility
+\begin{equation}\label{eq:boundary-test}
+ f_n(x_1,\ldots,x_{n-1},0)=f_{n-1}(x_1,\ldots,x_{n-1}).
+\end{equation}
+This expresses deletion of a completed customer. Functions may be bounded and locally absolutely continuous, with derivatives growing at most polynomially in $n$. The geometric factors below make all needed sums integrable.
+
+For $n>0$, the drift part of the generator is
+\[
+ -\frac r{n+k}\sum_{i=1}^n\partial_i f_n.
+\]
+For $n=0$ it is zero. Arrivals occur at rate $\lambda$ and append a fresh size with law $F$. Hence the jump part at state $x$ is
+\[
+ \lambda\int\bigl(f_{n+1}(x,b)-f_n(x)\bigr)\,F(db).
+\]
+The permanence of the extra customer changes the drift denominator, not the arrival rule.
+
+For a bounded absolutely continuous one-variable function $g$, integration by parts gives
+\begin{equation}\label{eq:residual-ibp}
+ \int g'(x)\,\nu(dx)
+   =\frac1\mu\left(\int g(b)\,F(db)-g(0)\right).
+\end{equation}
+The boundary term at infinity vanishes since $g$ is bounded and $\Fbar(x)\to0$. At zero, $\Fbar(0)=1$ because service sizes are positive. The formula is a Stieltjes integration identity and does not require a service density.
+
+Let $p_n$ be candidate count probabilities, and integrate the generator against the mixture of $\nu^{\otimes n}$ with weights $p_n$. Put
+\[
+ Q_n=\int f_n(x)\,\nu^{\otimes n}(dx),\qquad
+ R_n=\iint f_{n+1}(x,b)\,\nu^{\otimes n}(dx)F(db).
+\]
+Using~\eqref{eq:boundary-test} and~\eqref{eq:residual-ibp}, the integrated drift at level $n\geq1$ is
+\[
+ -\frac{p_nrn}{(n+k)\mu}(R_{n-1}-Q_{n-1}).
+\]
+The integrated arrival term at level $n$ is $\lambda p_n(R_n-Q_n)$. All terms cancel if
+\begin{equation}\label{eq:count-balance}
+ \frac{p_nrn}{(n+k)\mu}=\lambda p_{n-1},\qquad n\geq1.
+\end{equation}
+For $k=0$ this recurrence gives $p_n=p_0a^n$, normalized by $p_0=1-a$. For $k=1$ it gives $p_n=(n+1)p_0a^n$, normalized by $p_0=(1-a)^2$. Both distributions have moments of every order, so the cancellation is absolutely summable for the indicated test class.
+
+For completeness, the balance verification indeed identifies an invariant law for this process. Let $\Phi_t$ be its deterministic residual flow with no arrivals, including deletion at zero. Starting from finitely many ordinary customers, this flow is unique. If $y$ is the common amount of service received by each surviving customer during a no-arrival interval, then
+\begin{equation}\label{eq:waterfill}
+ rt=ky+\sum_i\min(x_i,y).
+\end{equation}
+For $k=1$ this equation has a unique solution for every $t$. For $k=0$, it applies until all work has departed, after which the state is empty. Thus $\Phi_t$ is a piecewise-affine residual map. On each region where the set $\{i:x_i>y\}$ is fixed, its derivatives in an initial coordinate are bounded by a polynomial in the number of coordinates.
+
+Let $\mathcal B$ be the operation of appending an independent size $B$, and let $\pi$ denote one of the candidate probability laws. The integrated generator equality says
+\[
+ \int Gg\,d\pi=\lambda\int(g-\mathcal B g)\,d\pi,
+\]
+where $G$ is the derivative along $\Phi_t$. It can be applied to $g=f\circ\Phi_s$. Indeed, boundary compatibility is preserved by $\Phi_s$, its maps are locally Lipschitz on each finite-dimensional piece, and the derivative bounds in~\eqref{eq:waterfill} are integrable under the geometric count law. Approximation handles the lower-dimensional regions where a residual becomes zero or two residuals coincide. Bounded product functions with one-variable factors equal to one at zero supply a separating class.
+
+Differentiate $e^{-\lambda s}\int f\circ\Phi_s\,d\pi$, use the integrated equality, and integrate in $s$ from zero to $t$. This gives
+\begin{equation}\label{eq:invariant-volterra}
+ \int f\,d\pi
+ =e^{-\lambda t}\int f\circ\Phi_t\,d\pi
+  +\int_0^t\lambda e^{-\lambda s}
+       \int \mathcal B(f\circ\Phi_s)\,d\pi\,ds.
+\end{equation}
+This is the last-arrival decomposition for a constant-in-time law $\pi$.
+
+More generally, the last-arrival decomposition specifies the law at time $t$ from its initial law and its laws at earlier times. Its first term is the no-arrival evolution; its integral conditions on the last Poisson arrival and then follows $\Phi$ for the remaining interval. The equation is unique: the total-variation distance between two solutions with the same initial law is at most the integral of their earlier distances against $\lambda e^{-\lambda s}\,ds$, and iteration on any bounded time interval forces that distance to zero. There is no explosion, since a finite initial count plus finitely many Poisson arrivals permits only finitely many departures on a bounded interval. Equation~\eqref{eq:invariant-volterra} therefore proves invariance.
+
+For ordinary PS, the stable work-conserving workload regenerates at zero with finite mean cycle length. Its stationary law is the regenerative stationary law, so the invariant distribution just verified is the one seen in the stationary queue. For the permanent system, the invariant distribution itself provides the stationary environment needed below.
+\end{proof}
+
+Two features of the lemma are worth distinguishing. The residual-size law can be heavy enough to have no mean, but the customer count still has a geometric or negative-binomial tail. Also, the permanent-customer law has an extra factor $n+1$. Replacing it with the ordinary geometric law would give incorrect constants in the next bound.
+
+\subsection{An immortal tagged job}
+Let $G_1$ and $G_2$ be independent random variables with $\Pp(G_i=n)=(1-a)a^n$. Their sum has the law in~\eqref{eq:permanent-count}. This gives a useful coupling at the arrival of a tagged job.
+
+A typical arrival to stationary ordinary PS sees the time-stationary state because the arrival process is an independent Poisson process. This arrival property can also be read directly from the Poisson compensation formula: sampling a function of the prearrival state against arrivals has expectation $\lambda$ times its time integral. The size of the tagged job is independent of that prearrival state.
+
+Couple the prearrival ordinary queue with $G_1$ customers and iid residuals of law $\nu$. Add $G_2$ further customers with independent residuals of the same law. In the enlarged system make the tagged job permanent. The ordinary population of the enlarged system initially has exactly the stationary law from Lemma~\ref{lem:ps-invariant}, and future arrivals are shared by the two systems.
+
+Until the actual tagged job completes, deleting the added customers and replacing the permanent tag by its finite copy can only speed up common jobs under PS. This follows by the same active-set comparison as Lemma~\ref{lem:ps-domination}; the larger system may also retain jobs that have already completed in the smaller one. Thus, if the actual tag has size $b$ and is unfinished at time $x$, its permanent counterpart has received less than $b$ service by $x$.
+
+Let $N(t)$ be the stationary ordinary count in the enlarged system, and let
+\begin{equation}\label{eq:permanent-service}
+ S(x)=\int_0^x\frac r{N(t)+1}\,dt
+\end{equation}
+be the permanent tag's service. We obtain the implication
+\begin{equation}\label{eq:tag-implication}
+ \{T_{\PS,r}>x\}\subseteq\{S(x)<b\}
+ \quad\hbox{conditional on }B=b.
+\end{equation}
+This argument enlarges the initial population by a finite random number, not by an equilibrium amount of work whose mean might be infinite. It only requires the distributional description of residuals and the finite count.
+
+\begin{lemma}[Conditional response bound]\label{lem:conditional-ps}
+For every integer $p\geq1$, every $x>0$, and $F$-almost every $b>0$,
+\begin{equation}\label{eq:conditional-tail}
+ \Pp(T_{\PS,r}>x\mid B=b)
+  \leq\min\left\{1,D_p(a)\left(\frac b{rx}\right)^p\right\},
+ \qquad D_p(a)=\E[(N+1)^p],
+\end{equation}
+where $N$ has the permanent-customer count law~\eqref{eq:permanent-count}.
+\end{lemma}
+\begin{proof}
+For each sample path, Cauchy--Schwarz gives
+\[
+ \left(\int_0^x\frac1{N(t)+1}\,dt\right)
+ \left(\int_0^x(N(t)+1)\,dt\right)\geq x^2.
+\]
+If $S(x)<b$, the average $x^{-1}\int_0^x(N(t)+1)\,dt$ is greater than $rx/b$. Markov's inequality and convexity of $z\mapsto z^p$ yield
+\begin{align*}
+ \Pp(S(x)<b)
+ &\leq\left(\frac b{rx}\right)^p
+      \E\left[\left(\frac1x\int_0^x(N(t)+1)\,dt\right)^p\right]\\
+ &\leq\left(\frac b{rx}\right)^p
+      \frac1x\int_0^x\E[(N(t)+1)^p]\,dt\\
+ &=D_p(a)\left(\frac b{rx}\right)^p.
+\end{align*}
+The last step uses stationarity, not independence across time or a mixing-rate assumption. Combine this with~\eqref{eq:tag-implication} and the trivial probability bound one.
+\end{proof}
+
+The bound is valid for every positive finite-mean service law, not only regularly varying laws. Its utility is that $p$ need not be an existing moment order of $B$. All high moments on its right-hand side belong to the stationary customer count of the comparison system.
+
+There are two losses in this inequality.  The immortal tag and added initial customers enlarge the system, and Markov's inequality discards temporal information about $N(t)$.  Neither loss affects the required tail order, but both can enlarge the constant.  Exact transform analyses of M/G/1-PS can be substantially sharper under their own hypotheses~\cite{yashkov1987,zwartboxma2000,guillemin2004,borst2006}.  Our theorem should therefore be read as a robust sufficient bound for coupling to the deterministic certificate, not as a new exact PS asymptotic.
+
+\subsection{Explicit constants}
+Let $A_m(z)$ be the Eulerian polynomial characterized by
+\begin{equation}\label{eq:eulerian-series}
+ \sum_{n\geq0}(n+1)^m z^n
+    =\frac{A_m(z)}{(1-z)^{m+1}},\qquad |z|<1,
+\end{equation}
+with $A_1(z)=1$. Differentiating the series after multiplication by $z$ proves the recurrence
+\begin{equation}\label{eq:eulerian-recurrence}
+ A_{m+1}(z)=(1+mz)A_m(z)+z(1-z)A_m'(z).
+\end{equation}
+Equivalently, the coefficient of $z^j$ satisfies
+\[
+ A(m+1,j)=(j+1)A(m,j)+(m+1-j)A(m,j-1).
+\]
+This recurrence shows that coefficients are nonnegative and that $A_m(1)=m!$.
+
+Substitution of~\eqref{eq:permanent-count} into the definition of $D_p$ gives
+\begin{equation}\label{eq:moment-eulerian}
+ D_p(a)=\frac{A_{p+1}(a)}{(1-a)^p}
+       \leq\frac{(p+1)!}{(1-a)^p}.
+\end{equation}
+For example,
+\begin{equation}\label{eq:first-moments}
+ D_1(a)=\frac{1+a}{1-a},\qquad
+ D_2(a)=\frac{1+4a+a^2}{(1-a)^2}.
+\end{equation}
+The finite artifact checks the coefficient identity through order eight using a separately written differentiation recurrence, and checks the count-balance recurrence at finitely many loads and states. The general identities above follow from the displayed algebra, not from the extent of those checks.
+
+\subsection{Integrating against a regularly varying service law}
+We record the regular-variation facts needed to integrate~\eqref{eq:conditional-tail}. They also identify the meaning of the lower-bound scale used later.
+
+\begin{lemma}[Two tail integrals]\label{lem:rv-integrals}
+If $\Fbar\in\RV(-\alpha)$ with $\alpha>1$, then for every real $p>\alpha$,
+\begin{align}
+ \E[B^p;B\leq y]
+   &\sim\frac{\alpha}{p-\alpha}y^p\Fbar(y),\label{eq:truncated-moment}\\
+ \int_y^\infty\Fbar(t)\,dt
+   &\sim\frac{y\Fbar(y)}{\alpha-1}.\label{eq:integrated-tail}
+\end{align}
+\end{lemma}
+\begin{proof}
+For the first statement, the layer-cake identity, valid also at atoms, gives
+\[
+ \E[B^p;B\leq y]
+ =p\int_0^y t^{p-1}\Fbar(t)\,dt-y^p\Fbar(y).
+\]
+In the integral put $t=yu$. At every fixed $u>0$, the ratio $\Fbar(yu)/\Fbar(y)$ tends to $u^{-\alpha}$.
+
+Here is an integrable bound for this change of scale. Choose $\beta\in(\alpha,p)$. Since $\Fbar(z/2)/\Fbar(z)\to2^\alpha$, repeated comparison at factors of two, together with monotonicity between consecutive factors, gives constants $K,y_0$ such that
+\[
+ \frac{\Fbar(yu)}{\Fbar(y)}\leq K u^{-\beta}
+ \quad\hbox{when }0<u\leq1\hbox{ and }yu\geq y_0.
+\]
+The same dyadic comparison from below shows $y^p\Fbar(y)\to\infty$. Consequently, the integral over $t<y_0$, divided by $y^p\Fbar(y)$, vanishes. On the rest, $u^{p-1-\beta}$ is integrable at zero, so dominated convergence yields
+\[
+ \frac{p\int_0^y t^{p-1}\Fbar(t)\,dt}{y^p\Fbar(y)}
+ \longrightarrow p\int_0^1u^{p-1-\alpha}\,du
+ =\frac p{p-\alpha}.
+\]
+Subtracting one proves~\eqref{eq:truncated-moment}.
+
+For the second statement, choose $\beta\in(1,\alpha)$. The analogous dyadic comparison for $u\geq1$ bounds $\Fbar(yu)/\Fbar(y)$ by $K u^{-\beta}$. Dominated convergence in
+\[
+ \frac{\int_y^\infty\Fbar(t)\,dt}{y\Fbar(y)}
+ =\int_1^\infty\frac{\Fbar(yu)}{\Fbar(y)}\,du
+\]
+then gives $\int_1^\infty u^{-\alpha}\,du=1/(\alpha-1)$.
+\end{proof}
+
+\begin{theorem}[Guarded-sharing tail bound]\label{thm:guard-tail}
+Let $\delta\in(0,1-\rho)$, put $r=1-\delta$ and $a=\rho/r$, and choose an integer $p>\alpha$. Then
+\begin{equation}\label{eq:guard-tail-exact}
+ \limsup_{x\to\infty}\frac{\Pp(T_{\GP_\delta}>x)}{\Fbar(x)}
+ \leq\frac p{p-\alpha}
+       \left(\frac{D_p(a)^{1/p}}r\right)^\alpha.
+\end{equation}
+In particular, writing
+\begin{equation}\label{eq:H-constant}
+ H_{\alpha,p}=\frac p{p-\alpha}\bigl((p+1)!\bigr)^{\alpha/p},
+\end{equation}
+we have the simpler bound
+\begin{equation}\label{eq:guard-tail-gap}
+ \limsup_{x\to\infty}
+ \frac{\Pp(T_{\GP_\delta}>x)}{\Fbar((1-\rho)x)}
+ \leq H_{\alpha,p}
+       \left(\frac{1-\rho}{1-\rho-\delta}\right)^\alpha.
+\end{equation}
+\end{theorem}
+\begin{proof}
+By stationary domination~\eqref{eq:stationary-domination}, it suffices to bound the slower PS response. Put $q=D_p(a)^{1/p}/r$. Integrating~\eqref{eq:conditional-tail} over $B$ and splitting at $x/q$ gives the finite-threshold inequality
+\begin{equation}\label{eq:finite-threshold-bound}
+ \Pp(T_{\GP_\delta}>x)
+ \leq\Fbar(x/q)+\frac{q^p}{x^p}\E[B^p;B\leq x/q].
+\end{equation}
+Lemma~\ref{lem:rv-integrals} shows that the right-hand side is asymptotic to
+\[
+ \frac p{p-\alpha}\Fbar(x/q)
+ \sim\frac p{p-\alpha}q^\alpha\Fbar(x).
+\]
+This proves~\eqref{eq:guard-tail-exact}. Equation~\eqref{eq:moment-eulerian} gives
+\[
+ q\leq\frac{((p+1)!)^{1/p}}{r(1-a)}
+       =\frac{((p+1)!)^{1/p}}{1-\delta-\rho}.
+\]
+Finally use~\eqref{eq:scale-equivalence} to change the denominator, obtaining~\eqref{eq:guard-tail-gap}.
+\end{proof}
+
+The policy has no parameter $p$ or $\alpha$. Those are chosen only in its analysis. Thus one guard can serve every regularly varying service law at a compatible load, even when the exponent is not supplied to the scheduler. The conditional bound is nonasymptotic, but using regular variation to simplify its integral is an asymptotic step.
+
+Combining Theorems~\ref{thm:guard-tight} and~\ref{thm:guard-tail} proves the positive half of Theorem~\ref{thm:boundary-intro}: set $\delta=1/C$ when $C>\theta(\rho)$. The excess $C/\theta-1$ has a concrete role. It leaves strictly positive spare capacity in the slower PS comparison. As that excess vanishes, the displayed upper bound diverges. This proves neither failure nor success on the equality boundary; a different argument would be needed there.

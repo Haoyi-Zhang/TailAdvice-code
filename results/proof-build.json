@@ -1,0 +1,68 @@
+{
+  "scope": "document compilation, not machine checking of mathematical proofs",
+  "publisher_template_required": false,
+  "commands": [
+    {
+      "command": [
+        "pdflatex",
+        "-no-shell-escape",
+        "-interaction=nonstopmode",
+        "-halt-on-error",
+        "-file-line-error",
+        "argument.tex"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.8154304959999905
+    },
+    {
+      "command": [
+        "bibtex.original",
+        "argument"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.07231407599999784
+    },
+    {
+      "command": [
+        "pdflatex",
+        "-no-shell-escape",
+        "-interaction=nonstopmode",
+        "-halt-on-error",
+        "-file-line-error",
+        "argument.tex"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.8153865169999932
+    },
+    {
+      "command": [
+        "pdflatex",
+        "-no-shell-escape",
+        "-interaction=nonstopmode",
+        "-halt-on-error",
+        "-file-line-error",
+        "argument.tex"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.7745176530000037
+    },
+    {
+      "command": [
+        "pdflatex",
+        "-no-shell-escape",
+        "-interaction=nonstopmode",
+        "-halt-on-error",
+        "-file-line-error",
+        "argument.tex"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.7865855839999938
+    }
+  ],
+  "pages": 42,
+  "layout_messages": [],
+  "wall_seconds": 3.2760477779999917,
+  "child_cpu_seconds": 3.261679,
+  "peak_child_rss_bytes": 95072256,
+  "status": "compiled"
+}

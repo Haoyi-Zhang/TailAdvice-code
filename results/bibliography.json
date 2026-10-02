@@ -1,0 +1,38 @@
+{
+  "scope": "offline bibliographic integrity and citation-coverage audit; not a full-text theorem verification",
+  "bibliography_entries": 72,
+  "minimum_required_entries": 55,
+  "unique_keys": 72,
+  "unique_normalized_titles": 71,
+  "unique_cited_keys": 72,
+  "undefined_citation_keys": [],
+  "uncited_bibliography_keys": [],
+  "nocite_commands": 0,
+  "verification_ledger_rows": 72,
+  "locator_counts": {
+    "doi": 63,
+    "arxiv": 4,
+    "isbn": 3,
+    "official_url": 2
+  },
+  "duplicate_persistent_identifiers": {},
+  "duplicate_normalized_titles": {
+    "minimizingflowtimenonclairvoyantly": [
+      "kalyan1997",
+      "kalyan2003"
+    ]
+  },
+  "approved_distinct-version_title_groups": [
+    [
+      "kalyan1997",
+      "kalyan2003"
+    ]
+  ],
+  "verification_date": "2026-09-16",
+  "network_used": false,
+  "errors": [],
+  "status": "passed",
+  "wall_seconds": 0.00412792899987835,
+  "cpu_seconds": 0.0041180000000001354,
+  "peak_rss_bytes": 95854592
+}

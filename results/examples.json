@@ -1,0 +1,12 @@
+{
+  "scope": "six finite instances; the supremum is proved analytically, not inferred from this table",
+  "cases": 6,
+  "largest_job_count": 97,
+  "max_completion_fraction_bits": 457,
+  "workers": 1,
+  "random_seed": null,
+  "wall_seconds": 5.055578457000593,
+  "cpu_seconds": 5.05530713,
+  "peak_rss_bytes": 95862784,
+  "status": "passed"
+}

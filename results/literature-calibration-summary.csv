@@ -1,0 +1,5 @@
+group,paper_count,earliest_year,latest_year,unique_venues,status
+same_venue,12,1995,2024,1,full_text_structural_read
+influential,5,2000,2012,4,full_text_structural_read
+adjacent,5,2018,2025,3,full_text_structural_read
+total,22,1995,2025,8,passed

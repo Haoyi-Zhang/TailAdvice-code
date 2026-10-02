@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,array}
+\usepackage{tikz,pgfplots}
+\usepackage[hidelinks]{hyperref}
+\pgfplotsset{compat=1.18}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\Fbar}{\overline F}
+\newcommand{\Rplus}{\mathbb R_+}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\OPT}{\operatorname{OPT}}
+\newcommand{\MF}{\operatorname{MF}}
+\newcommand{\GP}{\operatorname{G}}
+\newcommand{\PS}{\operatorname{PS}}
+\newcommand{\RV}{\operatorname{RV}}
+\newcommand{\eps}{\varepsilon}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\DeclareMathOperator{\supp}{supp}
+
+\title{Finite Load Advice: Mathematical Argument}
+\author{Haoyi Zhang \and Huaijin Ran}
+\date{}
+\hypersetup{
+  pdftitle={Finite Load Advice: Mathematical Argument},
+  pdfauthor={Haoyi Zhang and Huaijin Ran},
+  pdfkeywords={queueing, online scheduling, finite advice, maximum flow time, regular variation, processor sharing}
+}
+\begin{document}
+\maketitle
+This self-contained argument accompanies the finite scheduling artifact.
+The results are mathematical derivations, not machine-checked theorems.
+The stationary and asymptotic claims are not established by the finite tests.
+The two closest theorem boundaries have been compared; broader originality and independent correctness remain unverified.
+\input{sections/01-introduction}
+\input{sections/02-model}
+\input{sections/03-reservation}
+\input{sections/04-tail-bound}
+\input{sections/05-obstruction}
+\input{sections/06-advice}
+\input{sections/07-boundaries}
+\input{sections/08-finite-checks}
+\input{sections/09-discussion}
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

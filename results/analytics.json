@@ -1,0 +1,28 @@
+{
+  "scope": "finite algebra and encoding checks, not a stationary or asymptotic proof",
+  "polynomial_orders": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "moment_checks": 32,
+  "stationary_balance_checks": 256,
+  "codebooks": 5,
+  "codebook_entries": 31,
+  "selection_checks": 93,
+  "max_codebook_fraction_bits": 19,
+  "fluid_parameter_cases": 3,
+  "wrong_geometric_count_rejected": true,
+  "out_of_envelope_requests_rejected": true,
+  "workers": 1,
+  "random_seed": null,
+  "wall_seconds": 0.006774576000680099,
+  "cpu_seconds": 0.006772778999999951,
+  "peak_rss_bytes": 95207424,
+  "status": "passed"
+}

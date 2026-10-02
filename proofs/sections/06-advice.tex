@@ -1,0 +1,163 @@
+\section{Finite messages and their encoding}\label{sec:advice}
+The strict load boundary now turns a policy-selection problem into an interval-covering problem. The reduction is useful only because the lower side applies to every eligible policy and the upper side gives an actual policy with the stated exact competitive factor. We keep the reduction and the scheduling statements separate.
+
+\subsection{One code covers one logarithmic interval}
+Fix an envelope $\theta\in[u,v]$, $1<u<v<\infty$, and write $R=v/u>1$. Suppose a public collection has $M$ policies with finite factors $c_1,\ldots,c_M$, and a valid oracle has inflation at most $\Gamma<\infty$.
+
+If code $m$ is selected at an environment with parameter $\theta$, Theorem~\ref{thm:obstruction} requires $c_m\geq\theta$. The inflation bound requires $c_m\leq\Gamma\theta$. Thus every environment assigned to that code has
+\begin{equation}\label{eq:code-interval}
+ \theta\in[c_m/\Gamma,c_m].
+\end{equation}
+A code's actual admissible set may be smaller, or may depend on more than the load. Equation~\eqref{eq:code-interval} is only a necessary containing interval. This suffices for the lower bound, so no monotonicity of a policy's good-tail region is assumed.
+
+\begin{proposition}[Covering lower bound]\label{prop:covering}
+Every valid $M$-policy collection on $[u,v]$ has inflation
+\begin{equation}\label{eq:cover-lower}
+ \Gamma\geq R^{1/M}.
+\end{equation}
+The lower bound already holds if the service distribution is fixed to one regularly varying finite-mean law and only the Poisson rate varies across the envelope.
+\end{proposition}
+\begin{proof}
+For each $\theta\in[u,v]$, there is an environment at that load. For example, fix any positive regularly varying $B$ with finite mean and choose $\lambda=(1-1/\theta)/\E B$. The valid oracle must select some code for this environment. Therefore the $M$ intervals in~\eqref{eq:code-interval} cover $[u,v]$.
+
+On applying the increasing map $z=\log\theta$, each interval has length $\log\Gamma$. The length of their union is at most $M\log\Gamma$, whether or not they overlap and whether or not they extend outside the target envelope. Covering the interval $[\log u,\log v]$ requires
+\[
+ \log(v/u)\leq M\log\Gamma.
+\]
+Exponentiating proves~\eqref{eq:cover-lower}. The construction of an environment at each load used only one service law, proving the last assertion.
+\end{proof}
+
+An arbitrary size-aware oracle does not improve this bound. It can change which code is selected, but it cannot make a policy with $c_m<\theta$ have a job-size-order tail at that load. Likewise, within-cycle observations cannot reduce a fixed policy's global worst-case factor in the objective~\eqref{eq:inflation-def}.
+
+\subsection{A collection approaching the lower bound}
+Define ideal geometric boundaries
+\begin{equation}\label{eq:ideal-boundaries}
+ t_j=uR^{j/M},\qquad j=0,\ldots,M.
+\end{equation}
+For a chosen positive margin $\eps$, use competitive factors and guards
+\begin{equation}\label{eq:ideal-guards}
+ C_j=(1+\eps)t_j,
+ \qquad \delta_j=1/C_j,
+ \qquad j=1,\ldots,M.
+\end{equation}
+The oracle uses the first bin $[t_0,t_1]$ when appropriate, and bin $(t_{j-1},t_j]$ thereafter. The shared-boundary convention makes each selection unambiguous but has no effect on the bounds.
+
+\begin{proposition}[Geometric-bin construction]\label{prop:geometric}
+The collection of policies $\GP_{\delta_j}$ from~\eqref{eq:ideal-guards} is valid. Every selected policy satisfies its maximum-flow guarantee on every finite input, regardless of whether the code was appropriate for the environment. Under a correct selection,
+\begin{equation}\label{eq:ideal-inflation}
+ \frac{c(\GP_{\delta_j})}{\theta}
+ \leq(1+\eps)R^{1/M}.
+\end{equation}
+For a fixed tail index $\alpha>1$ and any integer $p>\alpha$, it also has
+\begin{equation}\label{eq:uniform-slack-tail}
+ \limsup_{x\to\infty}
+ \frac{\Pp(T>x)}{\Fbar((1-\rho)x)}
+ \leq H_{\alpha,p}\left(\frac{1+\eps}{\eps}\right)^\alpha.
+\end{equation}
+\end{proposition}
+\begin{proof}
+A selected bin has $\theta\leq t_j$, so $C_j\geq(1+\eps)\theta>\theta$. Theorems~\ref{thm:guard-tight} and~\ref{thm:guard-tail} give the exact competitive factor and the tail guarantee. Since $\theta\geq t_{j-1}$, their ratio is at most $(1+\eps)t_j/t_{j-1}=(1+\eps)R^{1/M}$.
+
+For the explicit tail bound, $C_j\geq(1+\eps)\theta$ implies
+\[
+ \delta_j\leq\frac{1-\rho}{1+\eps},\qquad
+ 1-\rho-\delta_j\geq\frac\eps{1+\eps}(1-\rho).
+\]
+Substitute this inequality into~\eqref{eq:guard-tail-gap}. The finite-input guarantee of each policy never used the load and therefore survives an incorrect selection.
+\end{proof}
+
+The constants in~\eqref{eq:uniform-slack-tail} are uniform over the selected loads and over slowly varying factors with the same $\alpha$, in the sense of a bound on each law's limsup. This does not exchange a supremum over service laws with the limit in $x$. Regular variation permits arbitrarily late entry into its asymptotic regime, so such an exchange would be a stronger and unsupported statement.
+
+Taking $\eps\downarrow0$ in the inflation bound and combining with Proposition~\ref{prop:covering} establishes the infimum in Theorem~\ref{thm:advice-intro} for ideal real-valued public boundaries. The next subsection shows that finite rational descriptions attain the same infimum. In neither construction is $\eps=0$ used as a valid positive-theorem parameter.
+
+\subsection{Environment messages are not input-advice tapes}\label{sec:message-vs-advice}
+The covering theorem uses the cardinality of a fixed policy collection, but its oracle is weaker than the usual advice-on-tape oracle in online algorithms.  In classical advice complexity, the oracle may inspect the realized request sequence and encode information tailored to that sequence~\cite{bocken2009,hromkovic2010,emek2011,komm2011,boyar2016}.  Here the message is chosen from $(\lambda,F)$ before the arrivals and service marks are realized.  Conditional on the selected code, every busy cycle remains random and independent of that choice.  This distinction is indispensable to the obstruction: an oracle that identified the future large-root cycle could encode scheduling information that our model expressly withholds.
+
+There are three separate bit counts.  First, $\lceil\log_2 M\rceil$ bits identify one code when the message is fixed length.  Second, the public collection must describe $M$ policies and their numerical parameters.  Third, an implementation or certifier must determine which public interval contains the environment parameter.  The theorem optimizes the first resource while Sections~\ref{sec:encoding} and the selection analysis account for the latter two.  A short index does not make an irrational boundary or an exponentially large public table free.
+
+This accounting also clarifies nonattainment.  The geometric covering lower bound permits closed intervals of logarithmic length $\log\Gamma$, whereas the positive scheduling theorem requires strict slack $c_m>\theta$.  At a bin's upper endpoint, setting $c_m=\theta$ would invoke the unresolved equality case.  Positive margins therefore approach the covering value but need not attain it.  The word ``infimum'' in Theorem~\ref{thm:advice-intro} records a scheduling boundary, not a numerical artifact of the rational approximation.
+
+A variable-length prefix code would change the objective only after a distribution over environments is specified.  Its expected message length can be finite while its worst-case length is unbounded, and rare environments can select arbitrarily large factors or descriptions.  The fixed-length theorem instead makes a uniform statement on the entire public envelope.  Section~\ref{sec:boundaries} keeps these notions separate rather than converting one into the other by an implicit prior.
+
+\subsection{Rational public codebooks}\label{sec:encoding}
+Suppose $u$ and $v$ are rational public inputs. Exact geometric boundaries can be irrational, so they should not be stored as if a finite advice index made their representation free. Fix a positive rational $\zeta$ and an integer grid denominator $D$. Define $q_0=u$, $q_M=v$, and for $1\leq j<M$ set
+\begin{equation}\label{eq:rational-boundary}
+ q_j=\frac1D\min\left\{n\in\mathbb Z_{\geq0}:
+       (n/D)^M\geq u^{M-j}v^j\right\}.
+\end{equation}
+All comparisons in this definition are rational, hence can be made by integer multiplication and comparison. They do not require evaluating an inexact $M$th root.
+
+For sufficiently large $D$,
+\begin{equation}\label{eq:rational-approx}
+ t_j\leq q_j\leq(1+\zeta)t_j,
+ \qquad q_0<q_1<\cdots<q_M.
+\end{equation}
+Indeed, $q_j-t_j<1/D$. Every ideal gap is at least $u(R^{1/M}-1)>0$. Taking $1/D$ smaller than that gap and at most $\zeta u$ ensures both properties, including the final gap to the exact endpoint $v$. The inequalities in~\eqref{eq:rational-approx} can themselves be checked without roots by raising positive rational quantities to the $M$th power. An implementation can increase $D$ until the checks succeed.
+
+Use bins with the rational boundaries $q_j$ and factors
+\begin{equation}\label{eq:rational-guard}
+ \widehat C_j=(1+\eps)q_j,
+ \qquad\widehat\delta_j=1/\widehat C_j,
+\end{equation}
+where $\eps>0$ is rational. The resulting policies have finite rational rate parameters. For a correct selection, $\widehat C_j\geq(1+\eps)\theta$, so the tail bound~\eqref{eq:uniform-slack-tail} is unchanged. Their inflation is at most
+\begin{equation}\label{eq:rational-inflation}
+ \max_j\frac{\widehat C_j}{q_{j-1}}
+ \leq(1+\eps)(1+\zeta)R^{1/M}.
+\end{equation}
+The leftmost expression is an exact rational certificate for the constructed collection, whether or not one chooses to describe its quality using $\zeta$.
+
+\begin{theorem}[Finite-description infimum]\label{thm:rational-infimum}
+For rational $1<u<v$, restricting the positive construction to finite rational boundaries and guards does not change $\Gamma_M^*(u,v)$. In particular, for every $\gamma>R^{1/M}$ there is such a collection with inflation strictly less than $\gamma$ and job-size-order tails throughout the envelope.
+\end{theorem}
+\begin{proof}
+The universal lower bound applies unchanged to finitely described policies. For the upper bound, choose positive rational $\eps$ and $\zeta$ sufficiently small that $(1+\eps)(1+\zeta)R^{1/M}<\gamma$. Choose a finite $D$ satisfying~\eqref{eq:rational-approx}. Equations~\eqref{eq:rational-guard} and~\eqref{eq:rational-inflation}, together with Proposition~\ref{prop:geometric}'s tail argument, give the result.
+\end{proof}
+
+For arbitrary real envelope endpoints, the ideal formula still holds. A finite rational public specification can instead use a containing rational envelope. By taking its endpoints sufficiently close, its ratio approaches $v/u$. This is approximation of a fixed public specification, not transmission of an arbitrary real through one message.
+
+\subsection{Encoding cost and selection precision}
+Let $L$ bound the binary lengths of the rational numerators and denominators of $u$ and $v$, and let $L_\eps$ do the same for $\eps$. A boundary numerator is at most $\lceil Dv\rceil$, so a stored boundary or guard has $O(L+L_\eps+\log D)$ bits. A list representation of the public collection therefore uses
+\begin{equation}\label{eq:table-storage}
+ O\bigl(M(L+L_\eps+\log D)\bigr)
+\end{equation}
+bits, separate from its selected index.
+
+To obtain one boundary in~\eqref{eq:rational-boundary}, binary search among the possible numerators requires $O(L+\log D)$ comparisons. Clearing denominators turns each into a comparison of integers with $O(M(L+\log D))$ bits. Across the table there are $O(M(L+\log D))$ such comparisons; integer powers and products can be computed by ordinary exact arithmetic. This is polynomial in the explicitly represented table dimensions. When $M=2^b$, both the table and its construction may be exponential in the advice budget $b$. No claim of an implicitly succinct policy collection follows from a short index.
+
+The theoretical oracle can classify a real load relative to public thresholds. Exact root arithmetic for the public boundaries does not require the oracle to transmit an exact real load. Strict slack also allows a certified interval of loads to be used instead.
+
+\begin{corollary}[Certified load intervals]\label{cor:load-interval}
+Suppose a correct oracle knows an interval $[\ell,h]\subseteq[u,v]$ containing $\theta$, with $h/\ell\leq\kappa_0$. It selects the code for the upper endpoint $h$ in a rational construction with margins $\eps$ and $\zeta$. The tail bound~\eqref{eq:uniform-slack-tail} holds, and the inflation is at most
+\begin{equation}\label{eq:interval-inflation}
+ (1+\eps)(1+\zeta)R^{1/M}\kappa_0.
+\end{equation}
+\end{corollary}
+\begin{proof}
+The selected factor is at least $(1+\eps)h\geq(1+\eps)\theta$, giving the tail bound. Its ratio to $h$ is bounded by~\eqref{eq:rational-inflation}, while $h/\theta\leq h/\ell\leq\kappa_0$. Multiply these inequalities.
+\end{proof}
+
+This corollary assumes a certified interval. It is not a learning theorem that obtains such an interval from finitely many observations, and it does not attach an unproved confidence level to an estimated load. An interval extending outside the public envelope needs an enlarged codebook or a separately stated fallback.
+
+\subsection{Advice precision versus the tail-bound constant}
+The infimum objective permits the tail constant to become large while the competitive inflation approaches its best value. This feature should be explicit. For an ideal collection write $g=R^{1/M}$ and $s=1+\eps>1$. We have the simultaneous achievable bounds
+\begin{equation}\label{eq:constant-tradeoff}
+ \Gamma\leq sg,
+ \qquad
+ \limsup_{x\to\infty}\frac{\Pp(T>x)}{\Fbar((1-\rho)x)}
+ \leq H_{\alpha,p}\left(\frac{s}{s-1}\right)^\alpha.
+\end{equation}
+Rational boundaries add the arbitrarily small inflation multiplier $1+\zeta$ without changing the second inequality.
+
+For example, an analytic target $A>H_{\alpha,p}$ on the displayed upper bound is met whenever
+\[
+ s\geq\frac{d}{d-1},\qquad d=(A/H_{\alpha,p})^{1/\alpha}>1.
+\]
+This is a sufficient parameter rule. We do not have a matching lower bound for the best possible tail constant at a given inflation, so the curve in~\eqref{eq:constant-tradeoff} is not asserted to be a Pareto frontier.
+
+The number of fixed-length advice bits can likewise be stated without obscuring equality. To achieve inflation at most $\gamma>1$, a necessary condition is
+\begin{equation}\label{eq:bits-necessary}
+ 2^b\log\gamma\geq\log R.
+\end{equation}
+The strict inequality is sufficient, since it leaves room for positive $\eps$ and $\zeta$. If equality holds, the infimum statement alone does not prove feasibility at exactly $\gamma$. Treating an infimum as an attained minimum would incorrectly erase the unresolved scheduling boundary.
+
+Together, the lower covering argument, exact factors of guarded sharing, and rational construction prove Theorem~\ref{thm:advice-intro}. The information tradeoff is tied to a specific pair of scheduling guarantees and a specific global observation model. It does not imply the same bit formula for per-job advice, total flow, or a learned policy whose finite-input benchmark is restricted to its training distribution.

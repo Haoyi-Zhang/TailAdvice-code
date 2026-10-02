@@ -1,0 +1,176 @@
+{
+  "scope": "clean extraction and rebuild of the pre-final project and standalone repository archives; finite execution and document compilation, not independent proof validation or global originality certification",
+  "archive_stage": "The archives tested here were assembled from the final source tree immediately before this report was inserted. The report contains no claim-critical input and its insertion does not alter code, proof, bibliography, or manuscript sources.",
+  "network_used": false,
+  "workers": 1,
+  "project_archive": {
+    "archive_name": "distribution-robust-tail-scheduling-finite-advice.zip",
+    "sole_extracted_root": "distribution-robust-tail-scheduling-finite-advice/",
+    "root_entries": [
+      "CURRENT-STATE.md",
+      "artifact/",
+      "paper/",
+      "research-plan.md"
+    ],
+    "command": "python paper/build_paper.py --template /path/to/matched-template.zip",
+    "result": {
+      "status": "compiled",
+      "template_family": "siamart251216",
+      "template_modified": false,
+      "template_redistributed": false,
+      "pages": 41,
+      "page_contract": 41,
+      "layout_messages": [],
+      "manuscript_contract": {
+        "review_mode": true,
+        "abstract_present": true,
+        "abstract_words": 176,
+        "abstract_word_limit": 250,
+        "abstract_paragraphs": 1,
+        "keywords_present": true,
+        "msc_present": true,
+        "abbreviated_title": "Load advice and joint scheduling guarantees",
+        "abbreviated_title_characters": 43,
+        "abbreviated_title_limit": 50,
+        "visible_author_names": true,
+        "section_inputs": [
+          "01-introduction",
+          "02-model",
+          "03-reservation",
+          "04-tail-bound",
+          "05-obstruction",
+          "06-advice",
+          "07-boundaries",
+          "08-finite-checks",
+          "09-discussion"
+        ],
+        "section_count": 9,
+        "inline_figure_source": true
+      },
+      "bibliography_contract": {
+        "entries": 72,
+        "unique_keys": 72,
+        "cited_keys": 72,
+        "undefined": [],
+        "uncited": [],
+        "nocite_commands": 0,
+        "minimum_required": 55,
+        "artifact_bibliography_match": true
+      },
+      "bibliography_items_in_bbl": 72
+    },
+    "measurement": {
+      "runner_wall_seconds": 4.64426017400001,
+      "child_cpu_seconds": 4.636804000000001,
+      "peak_child_rss_bytes": 95596544,
+      "external_elapsed": "0:05.38",
+      "external_max_rss_kib": 93612
+    }
+  },
+  "standalone_repository_archive": {
+    "archive_name": "distribution-robust-tail-scheduling.zip",
+    "sole_extracted_root": "distribution-robust-tail-scheduling/",
+    "command": "python reproduce.py --with-proof-pdf",
+    "result": {
+      "status": "passed_finite_reproduction",
+      "compared_evidence_count": 18,
+      "json_semantic_comparisons": 8,
+      "csv_byte_exact_comparisons": 10,
+      "boundary_test_count": 11,
+      "proof_document": {
+        "scope": "document compilation, not machine checking of mathematical proofs",
+        "publisher_template_required": false,
+        "pages": 42,
+        "layout_messages": [],
+        "status": "compiled"
+      },
+      "network_used": false,
+      "workers": 1,
+      "random_seed": null
+    },
+    "measurement": {
+      "runner_wall_seconds": 20.027433324999947,
+      "child_cpu_seconds": 20.029713,
+      "peak_child_rss_bytes": 97427456,
+      "external_elapsed": "0:20.75",
+      "external_max_rss_kib": 95144
+    },
+    "compared_evidence": [
+      {
+        "file": "results/pilot.json",
+        "comparison": "all non-runtime fields equal"
+      },
+      {
+        "file": "results/checks.json",
+        "comparison": "all non-runtime fields equal"
+      },
+      {
+        "file": "results/analytics.json",
+        "comparison": "all non-runtime fields equal"
+      },
+      {
+        "file": "results/examples.json",
+        "comparison": "all non-runtime fields equal"
+      },
+      {
+        "file": "results/proof-obligations.json",
+        "comparison": "all non-runtime fields equal"
+      },
+      {
+        "file": "results/literature-calibration.json",
+        "comparison": "all non-runtime fields equal"
+      },
+      {
+        "file": "results/bibliography.json",
+        "comparison": "all non-runtime fields equal"
+      },
+      {
+        "file": "results/reference-simulator.json",
+        "comparison": "all non-runtime fields equal"
+      },
+      {
+        "file": "results/checks-cases.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      },
+      {
+        "file": "results/advice.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      },
+      {
+        "file": "results/codebook.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      },
+      {
+        "file": "results/fluid_constants.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      },
+      {
+        "file": "results/tightness.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      },
+      {
+        "file": "results/proof-obligations.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      },
+      {
+        "file": "results/deficit-parameters.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      },
+      {
+        "file": "results/literature-calibration-summary.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      },
+      {
+        "file": "results/bibliography-summary.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      },
+      {
+        "file": "results/reference-simulator-summary.csv",
+        "comparison": "exact file bytes equal; no checksum used"
+      }
+    ]
+  },
+  "combined_measured_child_cpu_seconds": 24.666517000000002,
+  "combined_peak_child_rss_bytes": 97427456,
+  "status": "passed_clean_archive_reproduction"
+}

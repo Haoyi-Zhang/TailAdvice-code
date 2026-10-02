@@ -1,0 +1,138 @@
+\section{Inputs, information, and the workload benchmark}\label{sec:model}
+\subsection{Finite scheduling inputs}
+A finite input is a collection $I=\{(a_i,b_i):1\leq i\leq n\}$ with release times $a_i\geq0$ and processing requirements $b_i>0$. Jobs have fixed identifiers that break ties in release time. Their numerical values convey no information: a policy is invariant under relabeling that preserves this tie order, and no external arrival counter is supplied across an empty-state reset. At time $t$, a schedule assigns nonnegative measurable rates $s_i(t)$ to released unfinished jobs. A unit-speed schedule obeys
+\begin{equation}\label{eq:capacity}
+ \sum_i s_i(t)\leq1
+\end{equation}
+for almost every $t$. A job completes at the first time $d_i$ when its accumulated service reaches $b_i$. It receives no service before release or after completion. Preemption and simultaneous sharing carry no cost.
+
+The response time, also called flow time, is $d_i-a_i$. Define
+\begin{equation}\label{eq:maxflow}
+ \MF_A(I)=\max_i(d_i^A-a_i),\qquad
+ \OPT(I)=\inf_S\max_i(d_i^S-a_i),
+\end{equation}
+where the infimum allows any feasible unit-speed offline schedule, including a size-aware schedule that idles. Empty inputs have both values zero. A policy is $C$-competitive if $\MF_A(I)\leq C\OPT(I)$ for every nonempty finite input. We use no additive constant. Its exact competitive factor is
+\begin{equation}\label{eq:exact-factor}
+ c(A)=\sup_{I\ne\varnothing}\frac{\MF_A(I)}{\OPT(I)}.
+\end{equation}
+A finite supremum is itself a valid factor, whether or not any input attains it.
+
+This is the maximum of individual response times, not their sum or average. The offline schedule knows the whole finite input. The online policy does not. In particular, a factor for the total flow objective would not establish any inequality in~\eqref{eq:maxflow}.
+
+\subsection{The admissible policy class}
+An eligible policy is deterministic, work conserving, and causal. Causality has a prefix-consistency requirement: two inputs whose released-job histories agree through time $h$ induce the same service before $h$. An eventual job count, input-ending time, or future-trace-dependent initialization is not supplied to the policy. If the policy uses current job sizes, those sizes are part of the revealed history; unreleased jobs are not.
+
+The policy is invariant under a common shift of all release times. At an empty queue, it resets to a fixed empty state determined by its selected code. Consequently, busy cycles under a fixed stochastic environment are regenerative. The code itself is not discarded at a reset. Within a busy cycle the policy may maintain history and use all information available under its observation model. No claim is made for a policy that carries a learned distribution estimate across empty cycles without satisfying an appropriate uniform starting-state guarantee.
+
+These conditions have distinct roles. Work conservation gives a common workload and busy-cycle decomposition. Prefix consistency transfers a guarantee on a finite prefix to the same prefix of an infinite arrival stream. Empty-state regeneration turns cycle rewards into stationary arrival probabilities. The positive construction satisfies all three directly. For the lower bound, we allow current-size information, making its admissible class at least as informative as the nonclairvoyant class used in the construction.
+
+\subsection{A global finite message}
+Fix public numbers $1<u<v<\infty$ and a collection $\mathcal A=(A_1,\ldots,A_M)$ of eligible policies with $c(A_m)<\infty$. The collection, including all numerical parameters, is fixed before choosing an environment. A message selects one member for the entire queue. The oracle may know the load and service distribution, but not the realized future arrivals or job sizes. The online policy has no additional law-dependent parameter other than its public definition and the selected code.
+
+For each code, the finite-input guarantee is unconditional: it must hold for every finite input, even when the stochastic environment was misclassified. This requirement differs from a guarantee only on traces typical under the oracle's claimed law. It also differs from encoding a future finite schedule into a single unconstrained real-valued parameter.
+
+An environment selection rule is valid if its selected policy has the required stationary tail for every environment in the public envelope. Its performance is
+\begin{equation}\label{eq:inflation-def}
+ \Gamma(\mathcal A,\phi)
+   =\sup_{(\lambda,F)}
+      \frac{c(A_{\phi(\lambda,F)})}{\theta(\lambda\E B)},
+ \qquad \theta(\rho)=\frac1{1-\rho},
+\end{equation}
+where the supremum ranges over the regularly varying environments defined below with $\theta\in[u,v]$. Infima of this quantity concern the worst-case competitive factor selected by the message. They are not statistical sample complexities for estimating $\rho$ from observations.
+
+At most $b$ fixed-length bits give at most $2^b$ messages. The public codebook may be much larger than $b$ bits: it contains the policies, interval endpoints, and service parameters. Section~\ref{sec:encoding} constructs finite rational parameters and accounts for this separate description cost.
+
+\subsection{The stochastic environment and its tail objective}
+Arrivals form a Poisson process of rate $\lambda>0$. Their positive service requirements are independent and identically distributed as $B$, independent of the arrival process. Put
+\begin{equation}\label{eq:load}
+ \mu=\E B<\infty,\qquad \rho=\lambda\mu\in(0,1).
+\end{equation}
+We assume
+\begin{equation}\label{eq:rv}
+ \Fbar(x)=\Pp(B>x)=x^{-\alpha}L(x),\qquad \alpha>1,
+\end{equation}
+where $L(cx)/L(x)\to1$ for every fixed $c>0$. No density is required. The distribution may have atoms, and its variance may be infinite. A statement conditional on $B=b$ is interpreted through a regular conditional distribution and therefore only needs to hold for $F$-almost every $b$.
+
+The response time $T_A$ is that of a typical stationary arrival, rather than a root conditioned to start a busy period. For eligible policies, the common workload regeneration gives this arrival distribution through cycle rewards. We call
+\begin{equation}\label{eq:tail-order}
+ \limsup_{x\to\infty}\frac{\Pp(T_A>x)}{\Fbar(x)}<\infty
+\end{equation}
+a \emph{job-size-order tail guarantee}. Since $T_A\geq B$ at unit speed, a smaller order than $\Fbar$ is impossible. The guarantee allows a multiplicative constant depending on the fixed environment. It does not imply a uniform threshold in $x$ over all regularly varying laws.
+
+For a fixed load, regular variation also gives
+\begin{equation}\label{eq:scale-equivalence}
+ \Fbar((1-\rho)x)\sim(1-\rho)^{-\alpha}\Fbar(x).
+\end{equation}
+Thus either tail scale can be used for a finite-order bound. We use the scaled denominator when presenting load-uniform bounds on asymptotic constants. We do not infer that the leading constant in this scaled comparison equals one.
+
+\subsection{Assumption-to-proof map and nearby relaxations}\label{sec:assumption-map}
+The assumptions above are not a single indivisible queueing convention.  Each enters at a particular proof interface.  Making those interfaces explicit prevents two common overextensions: importing a stationary queueing result into the finite-input benchmark without checking its information model, and treating a proof for Poisson input as if only the mean rate mattered.  Standard point-process and queueing references supply the Palm, Poisson, and regenerative background used at these interfaces~\cite{kingman1993,baccelli2003,bremaud2020,harcholbalter2013}.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Where the model assumptions enter.  The last column states a possible proof obligation, not a theorem claimed here.}\label{tab:assumption-map}
+\begin{tabular}{@{}L{0.19\textwidth}L{0.36\textwidth}L{0.35\textwidth}@{}}
+\toprule
+Assumption & Use in the present proof & What a relaxation would require\\
+\midrule
+Unit speed and preemption & Make unfinished work the common prefix certificate and let guarded sharing allocate rates continuously & A new benchmark under setup costs, indivisible service, or nonpreemptive blocking\\
+Work conservation & Makes the workload path and busy-period endpoints independent of service order & Explicit control of intentional idling and of cycles that can be merged by the policy\\
+Prefix consistency & Transfers the finite-input competitive deadline to the identical prefix of the infinite stochastic queue & A guarantee uniform over terminal horizons or an observation model that reveals the horizon\\
+Empty-state reset & Makes policy state regenerative jointly with the workload & A stationary-state or Markov-renewal argument uniform over inherited internal states\\
+Poisson arrivals & Give an independent future after the busy-cycle root, Poisson arrival sampling, and the stationary PS construction & Renewal/Palm replacements plus a new invariant-law or domination proof\\
+IID positive sizes, independent of arrivals & Give the compound-Poisson laws of large numbers and isolate the root mark from future work & Mixing or dependence conditions strong enough for uniform fluid events and cycle rewards\\
+Regular variation with $\alpha>1$ & Converts conditional moments to $\Fbar$ order and converts the large-root window to $x\Fbar(x)$ & Tail-class-specific integral estimates; finite-mean stability alone does not supply them\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The deterministic half of the argument uses neither Poisson arrivals nor regular variation.  Lemma~\ref{lem:workload}, the exact guarded-sharing factor, and the rational codebook are statements about arbitrary finite release sequences.  Stochastic assumptions first enter when the same rate rule is placed in stationarity.  This separation is useful operationally: a wrong environment message can destroy the tail guarantee while leaving the finite-input certificate intact.
+
+The Poisson assumption is used in three distinguishable ways.  First, after a root arrival to an empty queue, the future marked process is independent of that root's service requirement.  Second, a typical arrival sees the stationary prearrival state; this is the PASTA step~\cite{wolff1982}.  Third, the processor-sharing comparison admits the residual product form verified in Lemma~\ref{lem:ps-invariant}.  A renewal input with the same rate would still have a strong law, but it would not automatically retain the latter two properties.  Consequently, replacing Poisson input is not a notational change: one would need the appropriate Palm arrival law and a replacement for the permanent-customer invariant distribution.
+
+The empty-state reset is similarly stronger than stability of the workload alone.  All work-conserving disciplines share the workload process, but a policy can carry an internal estimate or random seed from one busy period to the next.  The reset rules out such cross-cycle memory so that delayed-job rewards form identically distributed regenerative cycles.  A stateful learner could be admitted only after proving a stationary initialization and a reward identity that is uniform over, or explicitly averages over, its persistent state.  Nothing in the finite-message model supplies that result for free.
+
+Regular variation is used only after the pathwise scheduling inequalities are complete.  It gives both the truncated-moment relation in Lemma~\ref{lem:rv-integrals} and the fixed-window scaling in Theorem~\ref{thm:obstruction}; these are standard consequences of slow variation~\cite{bingham1987,foss2013}.  No density, hazard-rate monotonicity, or finite second moment is assumed.  This matters because equilibrium residual sizes can have infinite mean even though the queue is stable.  The proofs therefore avoid arguments that silently integrate a high moment of $B$.
+
+Finally, determinism is attached to the worst-case certificate.  The obstruction forces completion of a particular root on every path satisfying a finite fluid event.  An expected competitive ratio for a randomized policy would not imply this pathwise deadline.  Extending the lower bound to randomization would require an explicitly chosen adversary/randomness order and a distributional argument; it is not obtained by averaging the present proof.
+
+\subsection{Why maximum flow reduces to workload}
+Let $W_I(t)$ be the unfinished work at time $t$ of any unit-speed work-conserving schedule for $I$, including all arrivals at $t$. Between releases it decreases at rate one until it reaches zero; at a release it increases by the released work. These rules do not depend on the service order. We write $W_I(a_i+)$ to emphasize that all jobs tied at $a_i$ have been included.
+
+\begin{lemma}[Workload benchmark]\label{lem:workload}
+For every finite input,
+\begin{equation}\label{eq:workload-opt}
+ \OPT(I)=\sup_{t\geq0}W_I(t)=\MF_{\rm FCFS}(I).
+\end{equation}
+In particular, any arrival prefix has at most $\OPT(I)$ units of unfinished work at its last release time.
+\end{lemma}
+\begin{proof}
+Consider any feasible schedule $S$ whose maximum flow is $D$. Its unfinished work at time $t$ is at least $W_I(t)$. One way to see this is to compare the two workload paths between successive releases: a schedule cannot remove work faster than rate one, and a work-conserving path does not waste any available removal opportunity. Induction over release times proves the comparison, including schedules that idle.
+
+Every job released by $t$ must finish in $S$ by $t+D$, because its deadline $a_i+D$ is at most $t+D$. The total work of such jobs remaining at $t$ therefore cannot exceed $D$. It follows that $W_I(t)\leq D$ for every $t$. Taking the supremum over $t$ and then the infimum over $S$ proves $\sup_tW_I(t)\leq\OPT(I)$.
+
+Under FCFS, a job waits for the remaining work of all earlier jobs and then receives its own service. At a release time shared by several jobs, the last job in the fixed tie order has response exactly $W_I(t)$. Other members of the batch have no larger response. Workload cannot increase between releases, so its supremum occurs immediately after a release. Hence FCFS has maximum response $\sup_tW_I(t)$ and attains the lower bound.
+\end{proof}
+
+The proof does not claim that FCFS minimizes each individual response. It minimizes their largest value. For example, if one job of size four arrives at time zero and three jobs of size one arrive at time one, the maximum workload is six and every feasible unit-speed schedule has maximum flow at least six. Reordering the small jobs may help them, but it cannot improve this common maximum-flow benchmark. The lower bound uses the last-release deadline of a prefix, not a sum of all jobs' individual deadlines.
+
+For later use, it is convenient to express workload through net input. Start with a job of size $b$ at time zero, and let $A(t)$ be subsequent released work by $t$. For $X(t)=b+A(t)-t$, the reflected workload is
+\begin{equation}\label{eq:reflection}
+ W(t)=X(t)-\min\left\{0,\inf_{0\leq s\leq t}X(s)\right\},
+\end{equation}
+with left limits included when taking an infimum across a jump. This formula follows by subtracting exactly the cumulative idle time needed to keep workload nonnegative. It is a workload identity, not a scheduling decision rule.
+
+Suppose that for $0\leq t\leq h$,
+\begin{equation}\label{eq:fluid-error}
+ |A(t)-\rho t|\leq e b
+\end{equation}
+with $\rho<1$. The initial part of the reflection has $X(t)\leq(1+e)b$. Any reflected excursion beginning at $s>0$ has height at most $2eb$, because
+\[
+ A(t)-A(s)-(t-s)\leq-(1-\rho)(t-s)+2eb.
+\]
+The same bounds hold at left limits. Therefore
+\begin{equation}\label{eq:fluid-opt}
+ \sup_{0\leq t\leq h}W(t)\leq(1+2e)b.
+\end{equation}
+After the finite prefix ends, workload only decreases. Equation~\eqref{eq:fluid-opt} consequently bounds its entire offline maximum-flow optimum. This estimate will let a probabilistic arrival event invoke a deterministic guarantee without treating the stochastic input as an adversarially chosen infinite trace.

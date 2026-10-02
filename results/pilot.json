@@ -1,0 +1,36 @@
+{
+  "scope": "exact finite checks, not a general or mechanized asymptotic proof",
+  "mode": "pilot",
+  "integer_instance_count": 83,
+  "policy_comparison_count": 83,
+  "integer_max_jobs": 3,
+  "integer_release_set": [
+    0,
+    1,
+    2
+  ],
+  "integer_size_set": [
+    1,
+    2
+  ],
+  "guard_values": [
+    "1/2"
+  ],
+  "oracle_visited_states": 2769,
+  "max_completion_fraction_bits": 8,
+  "negative_control": {
+    "job_count": 25,
+    "optimal_max_flow": "1",
+    "guard": "1/2",
+    "correct_max_flow": "866563/544320",
+    "wrong_guard_max_flow": "13/4",
+    "wrong_guard_rejected": true,
+    "incorrect_completion_rejected": true
+  },
+  "random_seed": null,
+  "workers": 1,
+  "wall_seconds": 0.10517598100000214,
+  "cpu_seconds": 0.10515728500000004,
+  "peak_rss_bytes": 95600640,
+  "status": "passed"
+}

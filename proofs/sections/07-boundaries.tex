@@ -1,0 +1,101 @@
+\section{What changes with the message or the server}\label{sec:boundaries}
+The finite-message theorem concerns a bounded public load envelope, correctly selected advice, and a unit-speed algorithm compared with a unit-speed optimum. We now vary these assumptions one at a time. These consequences use the same capacity argument; they do not combine different observation or resource models into one guarantee.
+
+\subsection{Incorrect advice and unbounded load envelopes}
+For a fixed code with guard $\delta$ and exact factor $C=1/\delta$, the deterministic maximum-flow guarantee survives every input and every mistaken belief about the law. Its stationary tail has a strict phase distinction:
+\begin{equation}\label{eq:wrong-message-phase}
+ \begin{cases}
+  \rho<1-1/C: &\text{job-size-order upper bound},\\
+  \rho>1-1/C: &\text{integrated-tail lower bound}.
+ \end{cases}
+\end{equation}
+The first line is Theorem~\ref{thm:guard-tail}; the second is Theorem~\ref{thm:obstruction} applied to the same policy. Equality is again not classified. Thus the word ``robust'' can legitimately describe its finite-input maximum-flow certificate, but not a tail guarantee under arbitrary incorrect messages.
+
+\begin{corollary}[No finite collection for all stable loads]\label{cor:finite-all-loads}
+No finite public collection of eligible unit-speed policies, each with a finite maximum-flow competitive factor, admits a valid global selection rule for all loads $\rho\in(0,1)$ and regularly varying service laws.
+\end{corollary}
+\begin{proof}
+Let $C_{\max}$ be the largest factor in the finite collection. Choose a load with $\theta(\rho)>C_{\max}$ and fix any regularly varying finite-mean service law. Every possible selected code has factor below $\theta(\rho)$, so Theorem~\ref{thm:obstruction} excludes the required tail for all of them.
+\end{proof}
+
+This statement is not a prohibition on finite advice in every environment. Theorem~\ref{thm:rational-infimum} covers any fixed finite envelope. Nor does it rule out a single policy with no finite global competitive factor, such as ordinary PS. The finiteness of the factors is part of the simultaneous guarantee being studied.
+
+\subsection{An unbounded-length code}
+A countably infinite family can cover all loads while keeping every individual message finite. Fix rational $u\geq1$. For $\theta\geq u$, choose the integer $j\geq0$ such that
+\begin{equation}\label{eq:infinite-bins}
+ u2^j\leq\theta<u2^{j+1},
+ \qquad C_j=u2^{j+2},\qquad\delta_j=1/C_j.
+\end{equation}
+Then $2\theta<C_j\leq4\theta$. Taking $u=1$ covers every stable positive load. The policy $\GP_{\delta_j}$ has exact factor $C_j$, inflation at most four, and the tail bound
+\begin{equation}\label{eq:variable-tail}
+ \limsup_{x\to\infty}\frac{\Pp(T>x)}{\Fbar((1-\rho)x)}
+ \leq 2^\alpha H_{\alpha,p}
+\end{equation}
+for every integer $p>\alpha$. These assertions follow directly from the reservation and tail theorems with multiplicative margin at least two.
+
+One prefix-free encoding is the unary word $1^j0$, of length $j+1$. All its messages are finite, but their lengths have no common finite upper bound. An explicit more compact encoding first writes a self-delimiting representation of the binary length of $j+1$, then the remaining bits of $j+1$. To be precise, put
+\[
+ m=j+1,\quad \ell=\lfloor\log_2m\rfloor+1,
+ \quad k=\lfloor\log_2\ell\rfloor+1.
+\]
+Write $k-1$ zero bits followed by the $k$-bit binary representation of $\ell$, then the binary representation of $m$ with its initial one removed. The decoder first recovers $\ell$ and then knows exactly how many additional bits to read. No codeword is a prefix of another. Its length is
+\begin{equation}\label{eq:delta-length}
+ L_j=\ell+2k-2
+ \leq\log_2(j+1)+2\log_2(\log_2(j+1)+1)+1.
+\end{equation}
+The transmitted length is therefore of order $\log\log\theta$, with a further self-delimiting overhead. However, an expanded rational representation of the guard in~\eqref{eq:infinite-bins} needs order $j$ bits. A short code for an exponent is not a constant-size expanded rate parameter or a uniform execution-resource bound.
+
+Fixed worst-case message length and finite expected length are also different. For this prior example only, fix a rational $u>1$ (for instance, $u=2$), and put $\theta_j=u2^j$ with probability $2^{-j-1}$ for $j\geq0$. Every positive-probability support point then has $\theta_j>1$, hence $\rho_j=1-1/\theta_j\in(0,1)$. Moreover, $\theta_j$ lies in bin $j$ of~\eqref{eq:infinite-bins} and is encoded by the unary word $1^j0$, of length $j+1$. The probabilities sum to one, and the expected length is
+\[
+ \sum_{j\geq0}(j+1)2^{-j-1}=2.
+\]
+The prior's load support nevertheless approaches one. This is a distribution over queue environments used to count message bits, not a new iid service law obtained by mixing all those queues, and~\eqref{eq:variable-tail} is a conditional statement for each environment.
+
+Finite expected length is not automatic for every prior. For this second prior example also fix a rational $u>1$ (again, $u=2$ is allowed), restrict loads to $\theta_j=u16^j$ for $j\geq0$, and let $(p_j)_{j\geq0}$ be a probability distribution. Every positive-probability support point then has $\theta_j>1$. Requiring inflation at most four, Equation~\eqref{eq:code-interval} shows that one code can serve at most one such value of $j$. Any prefix-free message scheme therefore has expected length at least the entropy $\sum_j p_j\log_2(1/p_j)$. Indeed, prefix-free words of lengths $L_j$ have $\sum_j2^{-L_j}\leq1$, as their corresponding binary cylinders are disjoint. Normalizing these weights and applying nonnegativity of relative entropy gives $\sum_jp_jL_j\geq\sum_jp_j\log_2(1/p_j)$. The inequality for infinite entropy follows by finite truncation. This is a coding consequence of the interval restriction, not an additional tail theorem.
+
+\subsection{An explicitly faster server}
+Now change the actual server speed to $\sigma\geq1$, while retaining the \emph{unit-speed} offline comparator in~\eqref{eq:maxflow}. Continue to use $\rho=\lambda\mu<1$ for the nominal unit-speed load; the actual utilization is $\rho/\sigma$. Define guarded sharing at speed $\sigma$ by giving the oldest job rate $\delta$ plus its equal share of $\sigma-\delta$, for $0<\delta<\sigma$.
+
+The finite-input prefix argument gives
+\begin{equation}\label{eq:fast-competitive}
+ \MF_{\GP_{\sigma,\delta}}(I)\leq\frac{\OPT(I)}\delta.
+\end{equation}
+To justify the comparison, the faster work-conserving workload is no larger than the unit-speed workload on the same input. A prefix therefore has at most $\OPT(I)$ remaining work at its release time, and it receives at least rate $\delta$ until completion. The slower-PS comparison now has speed $r=\sigma-\delta$. If $\rho<r$, Lemma~\ref{lem:conditional-ps} and its integration still apply with that value of $r$.
+
+The obstruction changes by the same amount of capacity.
+
+\begin{proposition}[Speed-explicit obstruction]\label{prop:speed-obstruction}
+Let an eligible policy run at speed $\sigma\geq1$ with competitive factor $C$ relative to the unit-speed maximum-flow optimum. For a nominally stable regularly varying environment with $0<\rho<1$, if
+\begin{equation}\label{eq:fast-obstruction}
+ C<\frac1{\sigma-\rho},
+\end{equation}
+then its stationary response satisfies the integrated-tail lower bound
+\[
+ \liminf_{x\to\infty}\frac{\Pp(T>x)}{x\Fbar(x)}>0.
+\]
+\end{proposition}
+\begin{proof}
+A feasible factor is at least $1/\sigma$, by considering a single job. Under~\eqref{eq:fast-obstruction}, choose $K$ with $\rho_K>\sigma-1/C$, then choose
+\[
+ C<\kappa<\frac1{\sigma-\rho_K},
+ \qquad\Delta=1-\kappa(\sigma-\rho_K)>0.
+\]
+Use the same positive constants $e$, $\eta$, and $c_0$ as in~\eqref{eq:epsilon-choice}--\eqref{eq:eta-choice} with this $\Delta$. The finite prefix is still compared against the unit-speed optimum. Since $\rho<1$, its workload bound~\eqref{eq:prefix-opt} remains valid, and the root must complete before $H=\kappa b$.
+
+The actual queue cannot empty by $H$, because $b+A_K(t)-\sigma t\geq(\Delta-e)b>0$ for $t\leq H$. After the root completes, subsequent bounded jobs have received at most $\sigma H-b$ service. Their remaining work is at least
+\[
+ A_K(H)-(\sigma H-b)\geq(\Delta-e)b.
+\]
+The same size cap and recent-arrival subtraction leave at least $c_0b$ old unfinished jobs. Finally the actual-speed busy-cycle offspring mean is $\lambda\mu/\sigma=\rho/\sigma$, so its expected arrival count is $1/(1-\rho/\sigma)$. The proof of Theorem~\ref{thm:obstruction} applies with this cycle factor, giving a positive lower constant.
+\end{proof}
+
+\begin{theorem}[Zero advice with speed augmentation]\label{thm:zero-advice-speed}
+Fix $\eps>0$. At actual speed $1+\eps$, a single nonclairvoyant eligible policy has a maximum-flow factor $1/\eps$ relative to the unit-speed optimum and a job-size-order stationary tail for every nominal load $\rho\in(0,1)$ and every regularly varying service law with finite mean. No smaller uniform factor is possible for this simultaneous guarantee within the eligible class.
+\end{theorem}
+\begin{proof}
+Use $\delta=\eps$ and residual PS speed $r=1$. Equation~\eqref{eq:fast-competitive} gives factor at most $1/\eps$. The PS comparison is stable at every $\rho<1$, and Theorem~\ref{thm:guard-tail}'s integration gives the tail guarantee. In fact, the scaled tail upper constant from that proof is at most $H_{\alpha,p}$.
+
+Conversely, if a fixed policy had uniform factor $C<1/\eps$, choose $\rho<1$ sufficiently close to one that $C<1/(1+\eps-\rho)$. Proposition~\ref{prop:speed-obstruction} would exclude its required tail at that load. Therefore a smaller uniform factor is impossible, and the construction attains $1/\eps$.
+\end{proof}
+
+This theorem does not remove the need for advice in the unit-speed theorem by giving its algorithm an unstated advantage. It changes an explicit resource. Its equality $C=1/\eps$ is uniform over loads approaching one; at every fixed $\rho<1$, it lies strictly above $1/(1+\eps-\rho)$. Hence it does not resolve the fixed-load equality case left open earlier.

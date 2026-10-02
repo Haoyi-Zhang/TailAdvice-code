@@ -1,0 +1,42 @@
+{
+  "scope": "exact finite audits of proof interfaces; not a proof assistant or independent mathematical review",
+  "stationary": {
+    "ordinary_balance_checks": 256,
+    "permanent_balance_checks": 256,
+    "geometric_convolution_checks": 260,
+    "closed_moment_checks": 8,
+    "wrong_single_geometric_rejected": true
+  },
+  "conditional_bound": {
+    "harmonic_mean_path_checks": 1360,
+    "jensen_path_moment_checks": 8160,
+    "wrong_denominator_rejected": true
+  },
+  "regular_variation": {
+    "pareto_truncated_moment_checks": 80,
+    "pareto_integrated_tail_checks": 80,
+    "pareto_scaling_checks": 240
+  },
+  "covering": {
+    "telescoping_cover_checks": 8,
+    "finite_grid_minimax_checks": 8,
+    "rational_codebook_cover_checks": 6,
+    "continuous_infimum_not_claimed_attained": true
+  },
+  "regeneration": {
+    "regenerative_arrival_ratio_checks": 3,
+    "wrong_time_weighting_rejected": true
+  },
+  "workers": 1,
+  "random_seed": null,
+  "capacity_deficit": {
+    "strict_deficit_parameter_cases": 71,
+    "equality_method_boundary_cases": 71,
+    "equality_extension_not_claimed": true
+  },
+  "proof_obligation_rows": 16,
+  "wall_seconds": 0.14833027500003482,
+  "cpu_seconds": 0.14832837899999995,
+  "peak_rss_bytes": 95723520,
+  "status": "passed"
+}

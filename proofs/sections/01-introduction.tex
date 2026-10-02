@@ -1,0 +1,98 @@
+\section{Two guarantees for the same policy}\label{sec:intro}
+A queueing policy can protect the largest response time on each finite input or protect the asymptotic response-time tail of a typical arrival. These are different requirements. A finite-input guarantee compares schedules on the same released jobs. A stationary tail guarantee compares probabilities under a specified arrival and service law. Neither comparison can be substituted for the other, even when both use response time as their underlying quantity.
+
+Heavy-tailed service times make the distinction concrete. On every finite unit-speed single-server input, first-come, first-served (FCFS) minimizes the maximum response time. Yet a long job can delay many smaller arrivals under FCFS. Processor sharing (PS) removes this exclusive blocking but has no finite maximum-flow competitive factor. Classical queueing analyses instead ask for waiting- or sojourn-time asymptotics under a fixed stochastic model. Regular variation and subexponentiality provide the language for those asymptotics~\cite{cohen1973,bingham1987,abate1994,abate1997,foss2013}; busy-period and processor-sharing results identify how one large service requirement propagates through a queue~\cite{zwart2001,zwartboxma2000,guillemin2004,borst2006,mandjes2006}. The question here is not whether heavy-tail protection is possible without advice. It is what deterministic maximum-flow guarantee can accompany that protection, and how one finite environment message changes the choice of that guarantee.
+
+The distinction matters beyond notation. Size-aware and age-aware disciplines can drastically change a response distribution even though every work-conserving discipline has the same workload path. SRPT, foreground-background, Gittins, and their variants have been analyzed through exact transforms, sample-path comparisons, index policies, or rank functions~\cite{schrage1966,nunez2002,nuyenswierman2008,nuyenssmart2008,nuyenszwart2006,aalto2009,gittins2011,scully2018soap}. General sufficient conditions now cover broad heavy-tailed policy classes, including policies that do not observe job sizes~\cite{scully2020characterizing,scullyvankreveld2024}. These results establish that job-size-order tails are achievable. They do not attach a finite adversarial maximum-flow certificate to the same policy.
+
+We consider a message sent once for an entire queue environment. A public collection contains $M$ policies. Each has its own worst-case competitive factor on arbitrary finite inputs. An oracle, knowing the load or even the entire service law, chooses one policy from the collection. The message contains no processing times of individual jobs and no information about the future realized arrival sequence. We ask how closely the selected factor can track the smallest factor compatible with a stationary heavy-tail guarantee.
+
+The load is the decisive parameter. Write
+\begin{equation}\label{eq:theta-intro}
+ \theta(\rho)=\frac{1}{1-\rho},\qquad 0<\rho<1.
+\end{equation}
+We prove that $\theta(\rho)$ is a strict boundary: factors below it are incompatible with job-size-order tails, while every factor above it is attainable. The statement at equality is separate and remains open in this analysis. Thus a finite message is useful on a bounded envelope of $\theta$, but no fixed finite collection of finite-competitive policies covers loads arbitrarily close to one.
+
+\subsection{The closest tail-scheduling boundaries}
+The most direct predecessor is the question posed by Wierman and Zwart~\cite{wierman2012}. Their GI/GI/1 framework considers work-conserving, nonanticipating, nonlearning policies and permits a job's size to become available at or after arrival. Their weak-tail comparison asks whether one policy can remain within a finite multiplicative tail scale of the best policy over broad light- and heavy-tailed distribution classes. The resulting impossibility concerns simultaneous distributional robustness. Our theorem does not negate or evade that result by renaming its information. We restrict the law to a regularly varying finite-mean class, allow one global law-dependent selection before the queue runs, and impose a second objective that is absent from their comparison: an unconditional maximum-flow ratio on every finite input. The lower bound here is therefore a capacity statement about that joint objective, not a universal tail-competitiveness theorem.
+
+Nair, Wierman, and Zwart~\cite{nair2010} give the closest load-indexed policy family. Limited processor sharing serves at most a configured number of jobs simultaneously and uses the load to trade heavy- and light-tailed behavior. Their analysis obtains tail exponents and a weak robustness conclusion for the stochastic response distribution. It does not show that the configured policy has a finite maximum-flow ratio on every arrival sequence, and it does not lower-bound the number of global messages needed to approximate a load-dependent adversarial factor. Simply relabeling an LPS parameter as advice would consequently leave both halves of our joint statement unproved.
+
+A later line of work characterizes tail-optimal scheduling more directly. Scully et al.~\cite{scully2020characterizing} give policy-level sufficient conditions for heavy-tailed response-time optimality using the SOAP framework~\cite{scully2018soap}; related analyses cover SMART, Gittins, RMLF, and limited-preemption or noisy-rank variants~\cite{nuyenssmart2008,scully2018bubbles,scully2020simple,scully2020gittins,scully2021gittins,scullyvankreveld2024}. The positive theorem below is compatible with the broad message of this literature---a sufficiently protected large job need not force an integrated response tail---but its proof uses a different decomposition. An oldest-job reserve proves a finite-prefix certificate, while only the residual capacity is compared with PS. The construction is not a SOAP rank rule, and we do not claim that the SOAP conditions imply its deterministic guarantee.
+
+Tail order must also be separated from a leading asymptotic constant. For regularly varying sizes, classical PS results can identify exact or near-exact asymptotics under additional assumptions~\cite{zwartboxma2000,borst2006,guillemin2004}; for other disciplines, comparison and ordering results give different stochastic guarantees~\cite{shanthikumar1987,boxmadenisov2011}. Yu and Scully~\cite{yu2024} make the weak-versus-strong distinction explicit and construct strongly tail-optimal policies in a light-tailed M/G/1. Nudge and related policies provide stochastic improvements within an FCFS-oriented light-tail setting~\cite{grosof2021,vanhoudt2022,charlet2024}. We prove only an order upper bound in the regularly varying setting. The physical inequality $T\geq B$ makes that order optimal, but the constants obtained from conditional moments are not claimed to be sharp.
+
+Table~\ref{tab:closest-work} records the theorem-level differences that are essential for the present claims. The ``information'' column refers to what selects or drives the online rule, not what an analyst knows after a run.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Closest theorem families and the precise separation from the present joint objective. ``RV'' means regularly varying.}\label{tab:closest-work}
+\begin{tabular}{@{}L{0.13\textwidth}L{0.15\textwidth}L{0.24\textwidth}L{0.37\textwidth}@{}}
+\toprule
+Work & Information & Principal guarantee & Difference needed here\\
+\midrule
+Wierman--Zwart~\cite{wierman2012} & No learned law; arrived sizes may be known & Weak tail competitiveness across broad light/heavy classes & No global load message and no finite-input maximum-flow certificate; their impossibility and ours quantify over different objectives\\
+Nair--Wierman--Zwart~\cite{nair2010} & Load-configured LPS parameter & Stochastic tail exponent and weak robustness & No exact maximum-flow factor and no finite-message covering lower bound\\
+Scully et al.~\cite{scully2020characterizing} & SOAP rank, possibly size blind & Sufficient conditions for heavy-tail order optimality & Characterizes tail behavior, not simultaneous adversarial maximum flow\\
+Yu--Scully~\cite{yu2024} & Distribution-aware boost rule & Strong light-tail optimality; heavy-tail appendix & Different tail class and benchmark; no environment-message complexity\\
+Advice complexity~\cite{bocken2009,emek2011,boyar2016} & Oracle tape derived from a realized online input & Bits needed to improve a competitive ratio & Our message identifies an environment before its random input is realized and cannot encode that realization\\
+Predictions\newline\cite{lykouris2018,purohit2018,mitzenmacher2022} & Predictions with an error-dependent guarantee & Consistency and robustness tradeoff & No predictor or error metric is estimated here; every selected code has an unconditional finite-input certificate\\
+This paper & One finite global environment message & RV tail order and exact finite-input maximum-flow factor for the same policy & Strict factor boundary and optimal logarithmic covering on a bounded load envelope\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{A reservation policy and a capacity obstruction}
+The positive construction has a simple rate rule. With $N$ active jobs, reserve rate $\delta\in(0,1)$ for the oldest job and distribute the remaining rate $1-\delta$ equally among all active jobs. Consequently, the oldest job receives $\delta+(1-\delta)/N$, while each other job receives $(1-\delta)/N$. The rule uses arrival order and the active set, not job sizes. We call it \emph{$\delta$-guarded sharing} and write it as $\GP_\delta$.
+
+The oldest-job reservation protects every arrival prefix, not only one distinguished job. As long as some job released by time $a$ is unfinished, the oldest active job belongs to that prefix. The prefix therefore receives at least $\delta$ units of service per unit time. Its remaining work at $a$ is at most the offline optimal maximum flow time. This gives a competitive factor $1/\delta$, which is the exact worst-case factor of the policy.
+
+The remaining service behaves differently. Each job receives at least its share under an ordinary PS queue of speed $1-\delta$. If $\rho<1-\delta$, that slower comparison queue is stable. A permanent-customer construction bounds its size-conditional response moments using only its load, not higher service-time moments. Integrating the conditional bound against a regularly varying service distribution proves a job-size-order response tail. Choosing $\delta=1/C$ gives the sufficient condition $C>\theta(\rho)$.
+
+The converse does not assume that a policy uses a reservation. Start a busy cycle with one job of size $b$. A factor $C$ requires that job to complete within approximately $Cb$ on a long typical future arrival prefix. If $C<\theta(\rho)$, serving it this quickly consumes more than the spare capacity of that prefix. Choose a finite truncation of the service distribution whose load is already greater than $1-1/C$. Then an amount of order $b$ of bounded-job work remains unfinished after the large job has completed. Since each of these jobs has bounded size, an order-$b$ number of arrivals have long responses. Counting them in disjoint busy cycles converts the probability of a size-$b$ root into an integrated-tail lower bound. The truncation step is what avoids an unjustified inference from unfinished work to a number of unfinished jobs.
+
+\subsection{The theorem ladder}
+Let $\Fbar(x)=\Pp(B>x)=x^{-\alpha}L(x)$, where $\alpha>1$ and $L$ is slowly varying. Let $T$ denote the response time of a typical stationary arrival. The precise policy class and advice model appear in Section~\ref{sec:model}. The main statements are as follows.
+
+\begin{theorem}[Strict load boundary]\label{thm:boundary-intro}
+Fix an M/G/1 environment of unit-speed load $\rho\in(0,1)$ and service tail in $\RV(-\alpha)$, $\alpha>1$.
+If an eligible policy has a finite-input maximum-flow competitive factor $C<\theta(\rho)$, then
+\begin{equation}\label{eq:lower-intro}
+ \liminf_{x\to\infty}\frac{\Pp(T>x)}{x\Fbar(x)}>0.
+\end{equation}
+For every $C>\theta(\rho)$, the nonclairvoyant policy $\GP_{1/C}$ has worst-case factor exactly $C$ and satisfies
+\begin{equation}\label{eq:upper-intro}
+ \limsup_{x\to\infty}\frac{\Pp(T>x)}{\Fbar(x)}<\infty.
+\end{equation}
+\end{theorem}
+
+The necessary condition is policy independent within the stated causal and regenerative class. It still applies if the policy knows sizes of jobs that have already arrived. The sufficient condition uses less information. This asymmetry strengthens the lower bound; it is not a comparison that grants the proposed algorithm stronger information than its adversary.
+
+For the information consequence, fix a public envelope $1<u<v<\infty$ for $\theta$. Let $c_m$ be the exact finite-input competitive factor of policy $m$. A valid selection rule supplies job-size-order tails for every admissible environment in the envelope. Its inflation is the worst selected value of $c_m/\theta$. Infima are taken over public collections and valid selection rules.
+
+\begin{theorem}[Finite-message infimum]\label{thm:advice-intro}
+With at most $M\geq1$ advised policies, the infimum inflation on $\theta\in[u,v]$ is
+\begin{equation}\label{eq:advice-intro}
+ \Gamma_M^*(u,v)=\left(\frac vu\right)^{1/M}.
+\end{equation}
+For a fixed-length budget of $b$ bits, one can take $M=2^b$. Finite rational codebooks approach the infimum with any prescribed positive slack. The theorem does not assert attainment at zero slack.
+\end{theorem}
+
+The covering step is elementary but its interpretation is not. A single competitive factor $c$ can serve only loads with $\theta\leq c$, and inflation at most $\Gamma$ additionally requires $\theta\geq c/\Gamma$. On a logarithmic scale, one policy covers an interval of length at most $\log\Gamma$. The scheduling content is the necessity of $c\geq\theta$ for every eligible policy, together with realizability above that boundary by the same policy that has the claimed adversarial guarantee.
+
+A finite message is not a finite public description. Our rational construction stores $M$ boundaries and $M$ guards. These public quantities must be encoded and evaluated as well. We account for their bit lengths separately rather than hiding an arbitrary-precision real number in a transmitted policy index.
+
+\subsection{Information models and why their quantifiers differ}
+Classical competitive analysis fixes an input sequence and compares an online schedule with an offline optimum~\cite{borodin1998,albers2003}. Nonclairvoyant flow-time scheduling shows how job-size uncertainty and speed augmentation change achievable guarantees~\cite{kalyan1997,kalyan2000,kalyan2003,becchetti2004}. Standard scheduling texts emphasize that maximum flow, total flow, lateness, and stochastic sojourn time are distinct objectives~\cite{pinedo2016,lenstra2020}. Our benchmark belongs to this adversarial tradition, but the message does not: it is chosen from the queue law before the realized input exists.
+
+The advice-complexity literature normally lets an oracle inspect the entire realized request sequence and write bits to a tape~\cite{bocken2009,hromkovic2010,emek2011,komm2011,boyar2016}. Under that model, $b$ bits can select among $2^b$ behaviors tailored to the particular sequence. Here $b$ bits select among $2^b$ fixed queueing policies using only the environment. All arrival and service randomness remains unknown when the message is sent. This restriction is why a one-dimensional covering argument is meaningful: the oracle can identify a load bin but cannot encode which future busy cycle will contain a large root.
+
+Learning-augmented algorithms make another tradeoff. A prediction may be attached to a request or instance, and performance degrades as an error measure grows~\cite{lykouris2018,purohit2018,mitzenmacher2022}. Recent scheduling work combines learned information with competitive fairness or stochastic signals~\cite{li2025,cosson2026}. Those models motivate preserving a worst-case fallback, but neither their observations nor their objectives equal the global-message model here. We do not train a predictor, estimate a load interval from samples, or claim a guarantee as a function of prediction error. Incorrect advice preserves only the unconditional maximum-flow certificate; it may cross the tail boundary.
+
+\subsection{Scope of the contribution}
+The proof has three independent layers. First, workload gives a policy-independent maximum-flow benchmark and the oldest-job reserve turns it into an exact certificate. Second, a slower-PS domination and a permanent-customer moment calculation establish the positive tail result without assuming a finite moment of order above $\alpha$. Third, a regenerative large-root argument yields a policy-independent integrated-tail obstruction. Only after those layers meet do logarithmic covering and rational encoding translate the boundary into an advice theorem.
+
+Several nearby results remain outside the claim. Heavy-traffic guarantees for blind policies~\cite{bansal2018}, multiserver SRPT and Gittins analyses~\cite{grosof2018,scully2020gittins,hong2024}, load-balancing guardrails~\cite{grosof2019}, and fairness-oriented or priority-control models~\cite{friedman2003,fajardo2015,fajardo2017,gavish1977} address different limits or objectives. Empirical heavy-tail observations motivate why response tails matter~\cite{crovella1996,harcholbalter2003}, but this paper makes no trace or deployment claim. The equality $C=\theta(\rho)$, exact leading tail constants, non-Poisson arrival extensions, and parallel-server analogues are left open rather than inferred from the finite checks.
+
+The next section fixes the quantifiers and the workload benchmark. Section~\ref{sec:reservation} proves the deterministic reservation results. Sections~\ref{sec:tail} and~\ref{sec:obstruction} establish the two sides of the load boundary. Section~\ref{sec:advice} derives the finite-message theorem and finite encodings. Section~\ref{sec:boundaries} treats wrong messages, unbounded message lengths, and an explicitly faster server. Exact finite consequences and the limits of the result complete the argument.

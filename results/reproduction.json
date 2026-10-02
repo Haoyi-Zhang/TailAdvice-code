@@ -1,0 +1,260 @@
+{
+  "scope": "clean reproduction of finite evidence; not an asymptotic proof or originality review",
+  "commands": [
+    {
+      "command": [
+        "python",
+        "run_checks.py",
+        "--pilot",
+        "--output",
+        "observed/pilot.json"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.7979509520000647,
+      "cpu_seconds": 0.7968729999999999,
+      "stdout": "{\n  \"scope\": \"exact finite checks, not a general or mechanized asymptotic proof\",\n  \"mode\": \"pilot\",\n  \"integer_instance_count\": 83,\n  \"policy_comparison_count\": 83,\n  \"integer_max_jobs\": 3,\n  \"integer_release_set\": [\n    0,\n    1,\n    2\n  ],\n  \"integer_size_set\": [\n    1,\n    2\n  ],\n  \"guard_values\": [\n    \"1/2\"\n  ],\n  \"oracle_visited_states\": 2769,\n  \"max_completion_fraction_bits\": 8,\n  \"negative_control\": {\n    \"job_count\": 25,\n    \"optimal_max_flow\": \"1\",\n    \"guard\": \"1/2\",\n    \"correct_max_flow\": \"866563/544320\",\n    \"wrong_guard_max_flow\": \"13/4\",\n    \"wrong_guard_rejected\": true,\n    \"incorrect_completion_rejected\": true\n  },\n  \"random_seed\": null,\n  \"workers\": 1,\n  \"wall_seconds\": 0.11911771499990209,\n  \"cpu_seconds\": 0.11897701,\n  \"peak_rss_bytes\": 95719424,\n  \"status\": \"passed\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "run_checks.py",
+        "--output",
+        "observed/checks.json"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 3.844437456000378,
+      "cpu_seconds": 3.8428850000000008,
+      "stdout": "{\n  \"scope\": \"exact finite checks, not a general or mechanized asymptotic proof\",\n  \"mode\": \"full\",\n  \"integer_instance_count\": 461,\n  \"policy_comparison_count\": 1383,\n  \"integer_max_jobs\": 5,\n  \"integer_release_set\": [\n    0,\n    1,\n    2\n  ],\n  \"integer_size_set\": [\n    1,\n    2\n  ],\n  \"guard_values\": [\n    \"1/4\",\n    \"1/2\",\n    \"3/4\"\n  ],\n  \"oracle_visited_states\": 188745,\n  \"max_completion_fraction_bits\": 20,\n  \"negative_control\": {\n    \"job_count\": 49,\n    \"optimal_max_flow\": \"1\",\n    \"guard\": \"1/2\",\n    \"correct_max_flow\": \"156372658938553/90115817975040\",\n    \"wrong_guard_max_flow\": \"13/4\",\n    \"wrong_guard_rejected\": true,\n    \"incorrect_completion_rejected\": true\n  },\n  \"random_seed\": null,\n  \"workers\": 1,\n  \"wall_seconds\": 3.136251156000071,\n  \"cpu_seconds\": 3.135177943,\n  \"peak_rss_bytes\": 97296384,\n  \"status\": \"passed\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "check_analytics.py",
+        "--output-dir",
+        "observed"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.7102991029996701,
+      "cpu_seconds": 0.7098340000000002,
+      "stdout": "{\n  \"scope\": \"finite algebra and encoding checks, not a stationary or asymptotic proof\",\n  \"polynomial_orders\": [\n    1,\n    2,\n    3,\n    4,\n    5,\n    6,\n    7,\n    8\n  ],\n  \"moment_checks\": 32,\n  \"stationary_balance_checks\": 256,\n  \"codebooks\": 5,\n  \"codebook_entries\": 31,\n  \"selection_checks\": 93,\n  \"max_codebook_fraction_bits\": 19,\n  \"fluid_parameter_cases\": 3,\n  \"wrong_geometric_count_rejected\": true,\n  \"out_of_envelope_requests_rejected\": true,\n  \"workers\": 1,\n  \"random_seed\": null,\n  \"wall_seconds\": 0.0066005640001094434,\n  \"cpu_seconds\": 0.006600184000000009,\n  \"peak_rss_bytes\": 95416320,\n  \"status\": \"passed\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "check_examples.py",
+        "--output-dir",
+        "observed"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 5.793848997000168,
+      "cpu_seconds": 5.792531999999999,
+      "stdout": "{\n  \"scope\": \"six finite instances; the supremum is proved analytically, not inferred from this table\",\n  \"cases\": 6,\n  \"largest_job_count\": 97,\n  \"max_completion_fraction_bits\": 457,\n  \"workers\": 1,\n  \"random_seed\": null,\n  \"wall_seconds\": 5.132220643999972,\n  \"cpu_seconds\": 5.131659643000001,\n  \"peak_rss_bytes\": 96116736,\n  \"status\": \"passed\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "check_proof_obligations.py",
+        "--output-dir",
+        "observed"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.7410321639999893,
+      "cpu_seconds": 0.7405680000000012,
+      "stdout": "{\n  \"scope\": \"exact finite audits of proof interfaces; not a proof assistant or independent mathematical review\",\n  \"stationary\": {\n    \"ordinary_balance_checks\": 256,\n    \"permanent_balance_checks\": 256,\n    \"geometric_convolution_checks\": 260,\n    \"closed_moment_checks\": 8,\n    \"wrong_single_geometric_rejected\": true\n  },\n  \"conditional_bound\": {\n    \"harmonic_mean_path_checks\": 1360,\n    \"jensen_path_moment_checks\": 8160,\n    \"wrong_denominator_rejected\": true\n  },\n  \"regular_variation\": {\n    \"pareto_truncated_moment_checks\": 80,\n    \"pareto_integrated_tail_checks\": 80,\n    \"pareto_scaling_checks\": 240\n  },\n  \"covering\": {\n    \"telescoping_cover_checks\": 8,\n    \"finite_grid_minimax_checks\": 8,\n    \"rational_codebook_cover_checks\": 6,\n    \"continuous_infimum_not_claimed_attained\": true\n  },\n  \"regeneration\": {\n    \"regenerative_arrival_ratio_checks\": 3,\n    \"wrong_time_weighting_rejected\": true\n  },\n  \"workers\": 1,\n  \"random_seed\": null,\n  \"capacity_deficit\": {\n    \"strict_deficit_parameter_cases\": 71,\n    \"equality_method_boundary_cases\": 71,\n    \"equality_extension_not_claimed\": true\n  },\n  \"proof_obligation_rows\": 16,\n  \"wall_seconds\": 0.14973297500000626,\n  \"cpu_seconds\": 0.149730717,\n  \"peak_rss_bytes\": 95850496,\n  \"status\": \"passed\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "check_literature_calibration.py",
+        "--output-dir",
+        "observed"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.5857452639997973,
+      "cpu_seconds": 0.5851660000000001,
+      "stdout": "{\n  \"scope\": \"internal consistency of a 12/5/5 full-paper structural calibration; not a novelty certificate or proof review\",\n  \"source_records\": 22,\n  \"group_counts\": {\n    \"same_venue\": 12,\n    \"influential\": 5,\n    \"adjacent\": 5\n  },\n  \"unique_identifiers\": 22,\n  \"unique_venues\": 8,\n  \"year_range\": [\n    1995,\n    2025\n  ],\n  \"checked_on_values\": [\n    \"2026-09-15\"\n  ],\n  \"required_fields_per_record\": 24,\n  \"markdown_identifiers_present\": 22,\n  \"network_used\": false,\n  \"scholarly_content_reverified_by_checker\": false,\n  \"novelty_certified\": false,\n  \"independent_review\": false,\n  \"failures\": [],\n  \"status\": \"passed_literature_calibration\",\n  \"wall_seconds\": 0.001014217999909306,\n  \"cpu_seconds\": 0.0010029999999999761,\n  \"peak_rss_bytes\": 95195136\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "check_bibliography.py",
+        "--output-dir",
+        "observed"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.5804087470000923,
+      "cpu_seconds": 0.5795659999999995,
+      "stdout": "{\n  \"scope\": \"offline bibliographic integrity and citation-coverage audit; not a full-text theorem verification\",\n  \"bibliography_entries\": 72,\n  \"minimum_required_entries\": 55,\n  \"unique_keys\": 72,\n  \"unique_normalized_titles\": 71,\n  \"unique_cited_keys\": 72,\n  \"undefined_citation_keys\": [],\n  \"uncited_bibliography_keys\": [],\n  \"nocite_commands\": 0,\n  \"verification_ledger_rows\": 72,\n  \"locator_counts\": {\n    \"doi\": 63,\n    \"arxiv\": 4,\n    \"isbn\": 3,\n    \"official_url\": 2\n  },\n  \"duplicate_persistent_identifiers\": {},\n  \"duplicate_normalized_titles\": {\n    \"minimizingflowtimenonclairvoyantly\": [\n      \"kalyan1997\",\n      \"kalyan2003\"\n    ]\n  },\n  \"approved_distinct-version_title_groups\": [\n    [\n      \"kalyan1997\",\n      \"kalyan2003\"\n    ]\n  ],\n  \"verification_date\": \"2026-09-16\",\n  \"network_used\": false,\n  \"status\": \"passed\",\n  \"wall_seconds\": 0.004564564999782306,\n  \"cpu_seconds\": 0.00454899999999997,\n  \"peak_rss_bytes\": 95850496\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "check_reference_simulator.py",
+        "--output-dir",
+        "observed"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 1.0172626230000787,
+      "cpu_seconds": 1.0167040000000007,
+      "stdout": "{\n  \"scope\": \"finite exact differential implementation check; not an asymptotic theorem proof\",\n  \"reference_implementation\": \"independent breakpoint reconstruction; production segments are not consumed\",\n  \"atom_release_values\": [\n    \"0\",\n    \"1/2\",\n    \"1\"\n  ],\n  \"atom_size_values\": [\n    \"1/2\",\n    \"1\",\n    \"3/2\"\n  ],\n  \"maximum_jobs\": 4,\n  \"unordered_instance_count\": 714,\n  \"configuration_count_per_instance\": 4,\n  \"exact_completion_vector_comparisons\": 2856,\n  \"max_completion_numerator_bits\": 15,\n  \"max_completion_denominator_bits\": 13,\n  \"negative_controls\": {\n    \"protect_youngest\": {\n      \"correct_completion\": [\n        \"47/16\",\n        \"57/16\",\n        \"4\"\n      ],\n      \"mutated_completion\": [\n        \"4\",\n        \"5/2\",\n        \"2\"\n      ],\n      \"rejected\": true\n    },\n    \"extra_divisor\": {\n      \"correct_completion\": [\n        \"47/16\",\n        \"57/16\",\n        \"4\"\n      ],\n      \"mutated_completion\": [\n        \"19/6\",\n        \"97/24\",\n        \"341/72\"\n      ],\n      \"rejected\": true\n    },\n    \"omit_guard\": {\n      \"correct_completion\": [\n        \"47/16\",\n        \"57/16\",\n        \"4\"\n      ],\n      \"mutated_completion\": [\n        \"8\",\n        \"23/4\",\n        \"25/4\"\n      ],\n      \"rejected\": true\n    }\n  },\n  \"random_seed\": null,\n  \"workers\": 1,\n  \"network_used\": false,\n  \"status\": \"passed\",\n  \"wall_seconds\": 0.37291028999970877,\n  \"cpu_seconds\": 0.37288999999999994,\n  \"peak_rss_bytes\": 95850496\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.6081179900002098,
+      "cpu_seconds": 0.6073849999999984,
+      "stdout": "",
+      "stderr": "test_empty (test_boundaries.BoundaryTests.test_empty) ... ok\ntest_endpoints (test_boundaries.BoundaryTests.test_endpoints) ... ok\ntest_invalid_jobs_and_guards (test_boundaries.BoundaryTests.test_invalid_jobs_and_guards) ... ok\ntest_malformed_traces (test_boundaries.BoundaryTests.test_malformed_traces) ... ok\ntest_moment_endpoints (test_boundaries.BoundaryTests.test_moment_endpoints) ... ok\ntest_scaling (test_boundaries.BoundaryTests.test_scaling) ... ok\ntest_single_job (test_boundaries.BoundaryTests.test_single_job) ... ok\ntest_speed_augmentation (test_boundaries.BoundaryTests.test_speed_augmentation) ... ok\ntest_tied_completion_and_arrival (test_boundaries.BoundaryTests.test_tied_completion_and_arrival) ... ok\ntest_translation (test_boundaries.BoundaryTests.test_translation) ... ok\ntest_zero_bit_advice_and_envelope (test_boundaries.BoundaryTests.test_zero_bit_advice_and_envelope) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 0.009s\n\nOK\n"
+    },
+    {
+      "command": [
+        "python",
+        "build_proofs.py",
+        "--output",
+        "observed/argument.pdf",
+        "--report",
+        "observed/proof-build.json"
+      ],
+      "executable_resolution": "the interpreter executing this runner",
+      "working_directory": "isolated copy of repository sources",
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 4.048423043999719,
+      "cpu_seconds": 4.0731040000000025,
+      "stdout": "{\n  \"scope\": \"document compilation, not machine checking of mathematical proofs\",\n  \"publisher_template_required\": false,\n  \"commands\": [\n    {\n      \"command\": [\n        \"pdflatex\",\n        \"-no-shell-escape\",\n        \"-interaction=nonstopmode\",\n        \"-halt-on-error\",\n        \"-file-line-error\",\n        \"argument.tex\"\n      ],\n      \"exit_code\": 0,\n      \"wall_seconds\": 0.8486536700002034\n    },\n    {\n      \"command\": [\n        \"bibtex.original\",\n        \"argument\"\n      ],\n      \"exit_code\": 0,\n      \"wall_seconds\": 0.058592703999693185\n    },\n    {\n      \"command\": [\n        \"pdflatex\",\n        \"-no-shell-escape\",\n        \"-interaction=nonstopmode\",\n        \"-halt-on-error\",\n        \"-file-line-error\",\n        \"argument.tex\"\n      ],\n      \"exit_code\": 0,\n      \"wall_seconds\": 0.8277400599999964\n    },\n    {\n      \"command\": [\n        \"pdflatex\",\n        \"-no-shell-escape\",\n        \"-interaction=nonstopmode\",\n        \"-halt-on-error\",\n        \"-file-line-error\",\n        \"argument.tex\"\n      ],\n      \"exit_code\": 0,\n      \"wall_seconds\": 0.858773146999738\n    },\n    {\n      \"command\": [\n        \"pdflatex\",\n        \"-no-shell-escape\",\n        \"-interaction=nonstopmode\",\n        \"-halt-on-error\",\n        \"-file-line-error\",\n        \"argument.tex\"\n      ],\n      \"exit_code\": 0,\n      \"wall_seconds\": 0.8401923350002107\n    }\n  ],\n  \"pages\": 42,\n  \"layout_messages\": [],\n  \"wall_seconds\": 3.4366847219998817,\n  \"child_cpu_seconds\": 3.430487,\n  \"peak_child_rss_bytes\": 94937088,\n  \"status\": \"compiled\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "compared_evidence": [
+    {
+      "file": "results/pilot.json",
+      "comparison": "all non-runtime fields equal"
+    },
+    {
+      "file": "results/checks.json",
+      "comparison": "all non-runtime fields equal"
+    },
+    {
+      "file": "results/analytics.json",
+      "comparison": "all non-runtime fields equal"
+    },
+    {
+      "file": "results/examples.json",
+      "comparison": "all non-runtime fields equal"
+    },
+    {
+      "file": "results/proof-obligations.json",
+      "comparison": "all non-runtime fields equal"
+    },
+    {
+      "file": "results/literature-calibration.json",
+      "comparison": "all non-runtime fields equal"
+    },
+    {
+      "file": "results/bibliography.json",
+      "comparison": "all non-runtime fields equal"
+    },
+    {
+      "file": "results/reference-simulator.json",
+      "comparison": "all non-runtime fields equal"
+    },
+    {
+      "file": "results/checks-cases.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    },
+    {
+      "file": "results/advice.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    },
+    {
+      "file": "results/codebook.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    },
+    {
+      "file": "results/fluid_constants.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    },
+    {
+      "file": "results/tightness.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    },
+    {
+      "file": "results/proof-obligations.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    },
+    {
+      "file": "results/deficit-parameters.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    },
+    {
+      "file": "results/literature-calibration-summary.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    },
+    {
+      "file": "results/bibliography-summary.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    },
+    {
+      "file": "results/reference-simulator-summary.csv",
+      "comparison": "exact file bytes equal; no checksum used"
+    }
+  ],
+  "workers": 1,
+  "network_used": false,
+  "random_seed": null,
+  "status": "passed_finite_reproduction",
+  "boundary_test_count": 11,
+  "proof_document": {
+    "scope": "document compilation, not machine checking of mathematical proofs",
+    "publisher_template_required": false,
+    "pages": 42,
+    "layout_messages": [],
+    "status": "compiled"
+  },
+  "wall_seconds": 18.732547452999825,
+  "child_cpu_seconds": 18.744617,
+  "peak_child_rss_bytes": 97427456
+}

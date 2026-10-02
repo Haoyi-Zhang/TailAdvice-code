@@ -1,0 +1,60 @@
+# Distribution-robust tail scheduling
+
+This standalone repository contains the mathematical argument and exact finite evidence for **Finite Load Advice for Tail-Order and Maximum-Flow Guarantees**, by Haoyi Zhang and Huaijin Ran. It needs neither a sibling paper directory nor unpublished inputs. It is an internal research artifact. The exact model and central theorem boundaries of the closest historical papers have been compared, and the requested 12 same-venue / 5 influential / 5 adjacent full-paper structural calibration is recorded in `literature-calibration.csv` and `literature-calibration.md`. `proof-audit.md` records an adversarial author-side audit of sixteen proof interfaces. Neither document is an independent novelty or correctness certification. A successful command below does not certify a general theorem or a publication-ready research article.
+
+## Mathematical scope
+
+The stochastic model is a unit-speed M/G/1 queue with independent positive iid sizes, load rho in (0,1), and service tail x^(-alpha)L(x), alpha > 1. The finite-input objective is maximum response time against a clairvoyant unit-speed optimum, with no additive constant. Policies are deterministic, causal and prefix-consistent, work conserving, shift invariant, and reset at an empty queue. One message selects a fixed public policy for an entire environment; it contains no future trace or per-job sizes.
+
+The argument gives an integrated-tail obstruction for a factor C < 1/(1-rho), and a nonclairvoyant oldest-job-reservation policy for every C > 1/(1-rho). Its exact maximum-flow factor is C. On a public envelope theta=1/(1-rho) in [u,v], an M-policy collection has infimum inflation (v/u)^(1/M). Rational codebooks approach that value with positive slack. For 1<alpha<2, the two tail bounds also separate mean response: the obstruction forces infinite mean below the strict boundary, while guarded sharing has finite mean above it; alpha=2 is not decided by tail order alone. The equality boundary, optimal leading tail constant, arbitrary-arrival stochastic models, randomized expected competitive guarantees, and production scheduling performance are not established.
+
+All derivations, including the assumption-to-proof map, stationary residual law, conditional response bound, busy-cycle lower bound, advice-model separation, and encoding argument, are in `proofs/sections/`. The matched bibliography contains 72 scholarly entries, all cited in the assembled argument. `bibliography-verification.csv` records one DOI, arXiv identifier, edition-specific ISBN, or official proceedings locator for every entry and distinguishes metadata checking from full-paper reading. `proofs/argument.tex` assembles the argument using ordinary LaTeX, not a publisher class. This is a written proof, not a proof-assistant development. The ordinary-article rendering is not the SIAM manuscript and must not be used to assess its page target.
+
+## Reproduction
+
+Use Python 3.10 or later on a POSIX system. The finite checks use only its standard library. The combined command also needs installed `pdflatex` and BibTeX plus the usual AMS, booktabs, TikZ, PGFPlots and hyperref packages. It makes no network requests and does not install dependencies.
+
+```sh
+python reproduce.py --with-proof-pdf
+```
+
+The runner copies the necessary sources into a fresh temporary directory, executes one command at a time with a 45-second wall timeout, and kills the child's process group on timeout. It runs the 83-instance pilot, the 461-instance full enumeration, the algebra/codebook checks, six tightness examples, the sixteen-interface exact proof-obligation audit, the no-network 22-paper calibration validator, the 72-record bibliography/citation audit, a separately implemented 2,856-vector simulator differential, eleven boundary tests, and a standalone proof-document build. It compares all non-runtime fields in eight JSON reports and exact bytes in ten CSV records with the retained results. Its current execution report, including command output and resource measurements, is written to `results/reproduction.json`. Python optimization flags are refused because assertions are part of these finite checks. Omitting the optional proof-PDF flag runs just the standard-library checks.
+
+The components can also be invoked directly:
+
+```sh
+python run_checks.py --pilot --output results/pilot.json
+python run_checks.py --output results/checks.json
+python check_analytics.py --output-dir results
+python check_examples.py --output-dir results
+python check_proof_obligations.py --output-dir results
+python check_literature_calibration.py --output-dir results
+python check_bibliography.py --output-dir results
+python check_reference_simulator.py --output-dir results
+python -m unittest discover -s tests -v
+python build_proofs.py
+```
+
+Direct component commands refresh their named outputs. The combined runner instead preserves the original numerical records and compares regenerated data with them. `build_proofs.py` writes a convenience PDF under `proofs/`; that generated file is not required by the repository. There is no separate venue supplement here.
+
+## What was checked
+
+The integer family consists of all 461 multisets of one to five jobs from six release/size pairs: release in {0,1,2}, size in {1,2}. The canonical multiset order fixes simultaneous-arrival ties. This is not an enumeration of arbitrary real-valued inputs or every tie permutation. Three guards produce 1,383 comparisons. A separate dynamic program searches integer-slot deadline feasibility, including deliberate idle; it visited 188,745 states. The continuous-time workload identity is proved separately, not inferred from that oracle.
+
+`src/model.py` uses `fractions.Fraction` for releases, sizes, rates, event times and completions. Sizes determine completion events, but the proposed rate selector uses only arrival order and the active set. `src/checker.py` recomputes capacity, conservation, first completion, active intervals, prefix reservation, and per-job service domination from emitted traces. `check_reference_simulator.py` independently reconstructs policy breakpoints without consuming production segments; it matches 2,856 exact completion vectors on 714 rational inputs under four speed/guard configurations and rejects three mutated rules. These are separately written finite implementations, not an independent human review or an independently developed proof.
+
+`results/checks-cases.csv` contains the exact generated input, reference/comparison completions, oracle result and guarded completion vector for each comparison. The `max_completion_fraction_bits` field in `checks.json` and `pilot.json` refers only to the guarded schedules in the integer enumeration; it excludes slow-PS comparisons and separate negative controls. The analogous field in `examples.json` covers the six tightness cases. These are different populations: 20 bits for the full integer enumeration and 457 bits for the tightness cases.
+
+The youngest-job reservation control remains a feasible schedule but violates the claimed factor: its maximum flow is 13/4 when OPT=1 and the claimed factor is 2. The reservation checker rejects it. A corrupted completion vector is rejected separately. Additional checks cover empty/singleton inputs, coincident events, reservation endpoints, translation/scaling, two explicit speed-augmentation cases, invalid types and malformed traces.
+
+Five rational codebooks have 31 entries in total, with 93 endpoint/midpoint selections. The original algebra layer checks 256 finite count-balance identities, 32 moment inequalities, the Eulerian polynomial identity through order eight, and three explicit fluid-lemma parameter choices. The added proof-interface layer independently checks 16 obligation families, including 256 ordinary and 256 permanent balance equations, 260 convolution identities, 1,360 harmonic-share paths, 8,160 Jensen/moment paths, 80 Pareto truncated-moment identities, 80 Pareto integrated-tail identities, and 240 Pareto scaling identities, eight telescoping covers, eight finite-grid minimax cases, six rational codebooks, three regenerative ratios, 71 strict-deficit parameter chains, and 71 equality substitutions that correctly leave the present method without a positive gap. Wrong count, denominator, and time-weighting controls are rejected. Six bounded scheduling instances illustrate, but do not prove, the competitive supremum. There are no random samples, stationary-tail simulations, fitted exponents, GPUs, APIs, or external computation.
+
+## Evidence and limitations
+
+`claim_evidence_ledger.csv` maps claims to complete derivations, finite checks and raw records, and marks unverified or excluded claims. `proof-audit.md` attacks sixteen proof interfaces and records each resolution, finite diagnostic, and residual analytic risk. `literature-calibration.csv` and `.md` record the completed 12/5/5 structural reading protocol. `bibliography-verification.csv` records the 72 entry-level persistent locators and exactly which metadata were checked; `check_bibliography.py` enforces the 55-reference minimum, citation coverage, locator syntax/checksums, version-pair exception, and absence of `\nocite` or dangling keys. `external_resources.csv` records source URLs, licensing/access limitations and actual reading depth. `results/resource-use.json` retains measured initial finite-run resource use and identifies the small unmetered accounting gap; the clean run has separate measured totals. Timing and memory are execution observations, not policy-performance benchmarks.
+
+The 2012 motivating paper and the 2010 limited-processor-sharing paper were checked at the level of their exact model, information assumptions, tail objective, and central theorem boundary. The broader calibration contains 22 unique full-text structural reads: twelve SICOMP papers, five foundational/influential scheduling or queueing papers, and five adjacent recent papers. No paper in that declared set states the same full conjunction of a single global environment message, a deterministic same-speed maximum-response certificate on every finite input, and stationary regularly-varying response tail of service-tail order. That is a bounded literature-search conclusion, not a worldwide priority or novelty certificate. No award status, acceptance prediction, independent referee judgment, publication, or submission is claimed.
+
+The repository does not pin interpreter or TeX versions. Exact rational records were reproduced in the delivered environment. Timing, PDF metadata, font-dependent pagination, and last-digit display-only floating approximations are not promised identical across systems. The runner flags any CSV difference rather than silently declaring equivalence. No checksum or toolchain-fingerprint manifest is used.
+
+The license covers newly created code and finite generated records only. Cited articles and publisher templates are not redistributed. The mathematical prose is supplied for internal scholarly evaluation, with external dissemination and authorship responsibilities remaining with the named authors.

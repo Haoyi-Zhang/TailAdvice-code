@@ -1,0 +1,29 @@
+{
+  "scope": "internal consistency of a 12/5/5 full-paper structural calibration; not a novelty certificate or proof review",
+  "source_records": 22,
+  "group_counts": {
+    "same_venue": 12,
+    "influential": 5,
+    "adjacent": 5
+  },
+  "unique_identifiers": 22,
+  "unique_venues": 8,
+  "year_range": [
+    1995,
+    2025
+  ],
+  "checked_on_values": [
+    "2026-09-15"
+  ],
+  "required_fields_per_record": 24,
+  "markdown_identifiers_present": 22,
+  "network_used": false,
+  "scholarly_content_reverified_by_checker": false,
+  "novelty_certified": false,
+  "independent_review": false,
+  "failures": [],
+  "status": "passed_literature_calibration",
+  "wall_seconds": 0.001083410000319418,
+  "cpu_seconds": 0.0010670000000000401,
+  "peak_rss_bytes": 95461376
+}

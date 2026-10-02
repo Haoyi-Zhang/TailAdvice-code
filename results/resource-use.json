@@ -1,0 +1,46 @@
+{
+  "measured_initial_finite_runs": [
+    {
+      "activity": "pilot",
+      "cpu_seconds": 0.10515728500000004,
+      "wall_seconds": 0.10517598100000214,
+      "peak_rss_bytes": 95600640,
+      "measurement_scope": "exact finite checks, not a general or mechanized asymptotic proof"
+    },
+    {
+      "activity": "checks",
+      "cpu_seconds": 2.958192617,
+      "wall_seconds": 2.959007550000024,
+      "peak_rss_bytes": 95993856,
+      "measurement_scope": "exact finite checks, not a general or mechanized asymptotic proof"
+    },
+    {
+      "activity": "analytics",
+      "cpu_seconds": 0.006581867000000019,
+      "wall_seconds": 0.0065835979999064875,
+      "peak_rss_bytes": 95465472,
+      "measurement_scope": "finite algebra and encoding checks, not a stationary or asymptotic proof"
+    },
+    {
+      "activity": "examples",
+      "cpu_seconds": 5.005164859,
+      "wall_seconds": 5.005832281000039,
+      "peak_rss_bytes": 96120832,
+      "measurement_scope": "six finite instances; the supremum is proved analytically, not inferred from this table"
+    }
+  ],
+  "measured_initial_finite_cpu_seconds": 8.075096627999999,
+  "initial_boundary_tests": {
+    "tests": 11,
+    "reported_test_body_seconds": 0.008,
+    "whole_process_cpu_seconds": null
+  },
+  "accounting_limit": "The initial unit-test process startup and failed initial document builds were not separately CPU-metered. No exact total for all exploratory processes is asserted. Current clean reproduction is metered separately.",
+  "worker_limit": 1,
+  "gpu_used": false,
+  "external_compute_used": false,
+  "current_clean_reproduction": "See clean-reproduction.json for the actual project-ZIP and standalone-repository-ZIP extraction runs. reproduction.json contains per-command output for the standalone run.",
+  "current_clean_runs_measured_child_cpu_seconds": 24.666517000000002,
+  "current_clean_runs_peak_child_rss_bytes": 97427456,
+  "current_clean_total_scope": "Sum of the two archive-extraction runs recorded in clean-reproduction.json; not a whole-session cumulative total."
+}
