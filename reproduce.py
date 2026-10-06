@@ -93,8 +93,8 @@ def main() -> None:
                     raise RuntimeError('A reproduction command failed or timed out.')
                 if command[:2] == ['-m','unittest']:
                     match = re.search(r'Ran (\d+) tests?', stderr)
-                    if not match or int(match.group(1)) != 11:
-                        raise RuntimeError('Boundary suite did not execute the expected eleven tests.')
+                    if not match or int(match.group(1)) != 14:
+                        raise RuntimeError('Boundary suite did not execute the expected fourteen tests.')
                     summary['boundary_test_count'] = int(match.group(1))
             for name in ('pilot.json','checks.json','analytics.json','examples.json','proof-obligations.json','literature-calibration.json','bibliography.json','reference-simulator.json'):
                 expected = json.loads((ROOT/'results'/name).read_text())

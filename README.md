@@ -18,7 +18,7 @@ Use Python 3.10 or later on a POSIX system. The finite checks use only its stand
 python reproduce.py --with-proof-pdf
 ```
 
-The runner copies the necessary sources into a fresh temporary directory, executes one command at a time with a 45-second wall timeout, and kills the child's process group on timeout. It runs the 83-instance pilot, the 461-instance full enumeration, the algebra/codebook checks, six tightness examples, the sixteen-interface exact proof-obligation audit, the no-network 22-paper calibration validator, the 72-record bibliography/citation audit, a separately implemented 2,856-vector simulator differential, eleven boundary tests, and a standalone proof-document build. It compares all non-runtime fields in eight JSON reports and exact bytes in ten CSV records with the retained results. Its current execution report, including command output and resource measurements, is written to `results/reproduction.json`. Python optimization flags are refused because assertions are part of these finite checks. Omitting the optional proof-PDF flag runs just the standard-library checks.
+The runner copies the necessary sources into a fresh temporary directory, executes one command at a time with a 45-second wall timeout, and kills the child's process group on timeout. It runs the 83-instance pilot, the 461-instance full enumeration, the algebra/codebook checks, six tightness examples, the sixteen-interface exact proof-obligation audit, the no-network 22-paper calibration validator, the 72-record bibliography/citation audit, a separately implemented 2,856-vector simulator differential, and fourteen unit tests (eleven scheduling/boundary tests and three rational-root regressions). The optional flag adds a standalone proof-document build. It compares all non-runtime fields in eight JSON reports and exact bytes in ten CSV records with the retained results. A new execution report, including each command's raw stdout/stderr and resource measurements, is written to `results/reproduction.json`, or to the path supplied with `--output`. The supplied reproduction/resource reports retain historical POSIX runs with eleven tests; their timings and memory figures are not current-host measurements of the fourteen-test suite. Python optimization flags are refused because assertions are part of these finite checks. Omitting the optional proof-PDF flag runs just the standard-library checks.
 
 The components can also be invoked directly:
 
@@ -36,6 +36,10 @@ python build_proofs.py
 ```
 
 Direct component commands refresh their named outputs. The combined runner instead preserves the original numerical records and compares regenerated data with them. `build_proofs.py` writes a convenience PDF under `proofs/`; that generated file is not required by the repository. There is no separate venue supplement here.
+
+The three root regressions check rejection of twelve nonpositive bounds and six positive but unbracketed bounds, plus 1,200 exact positive-grid roots against a linear-search reference. They cover the rational arithmetic helper, not the stationary queueing proof. The valid codebook outputs are unchanged.
+
+`.github/workflows/scientific-checks.yml` runs the nine standard-library commands without TeX from this flat artifact-repository root on Ubuntu 24.04 when `main` is pushed, on pull requests to `main`, or by manual dispatch. The whole run has a 240-second wall limit, 180-second inherited per-process CPU limit and 1-GiB virtual-memory limit, in addition to the runner's 45-second child wall limits. The workflow preserves the exact JSON/CSV and fourteen-test-count failure gates and uploads raw per-command stdout/stderr in the reproduction report together with the outer runner log, including failed attempts. Workflow preparation and local checks do not establish a successful hosted run or mathematical correctness.
 
 ## What was checked
 

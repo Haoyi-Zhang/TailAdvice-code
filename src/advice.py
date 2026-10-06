@@ -34,7 +34,7 @@ def ceil_grid_root(target: Q, degree: int, denominator: int, upper: Q) -> Q:
     """Smallest n/D with (n/D)^degree >= target; no floating-point roots."""
     if (not isinstance(target, Q) or not isinstance(upper, Q)
             or type(degree) is not int or type(denominator) is not int
-            or target <= 0 or degree < 1 or denominator < 1):
+            or target <= 0 or upper <= 0 or degree < 1 or denominator < 1):
         raise ValueError("invalid positive root parameters")
     hi = -(-(upper * denominator).numerator // (upper * denominator).denominator)
     if Q(hi, denominator) ** degree < target:
