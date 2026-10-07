@@ -36,13 +36,16 @@ def ceil_grid_root(target: Q, degree: int, denominator: int, upper: Q) -> Q:
             or type(degree) is not int or type(denominator) is not int
             or target <= 0 or upper <= 0 or degree < 1 or denominator < 1):
         raise ValueError("invalid positive root parameters")
-    hi = -(-(upper * denominator).numerator // (upper * denominator).denominator)
-    if Q(hi, denominator) ** degree < target:
+    scaled_upper = upper * denominator
+    hi = -(-scaled_upper.numerator // scaled_upper.denominator)
+    threshold = target.numerator * denominator ** degree
+    target_denominator = target.denominator
+    if hi ** degree * target_denominator < threshold:
         raise ValueError("upper bound does not bracket the root")
     lo = 0
     while lo < hi:
         mid = (lo + hi) // 2
-        if Q(mid, denominator) ** degree >= target:
+        if mid ** degree * target_denominator >= threshold:
             hi = mid
         else:
             lo = mid + 1

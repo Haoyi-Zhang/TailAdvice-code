@@ -37,6 +37,13 @@ jobs:
           timeout --signal=TERM --kill-after=10s 240s \
             python -B reproduce.py --output scientific-checks/reproduction.json \
             2>&1 | tee scientific-checks/runner.log
+      - name: Check integer root comparisons and codebook boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=10s 120s \
+            python -B regressions/test_integer_roots.py -v \
+            > scientific-checks/integer-roots.log 2>&1
       - name: Preserve raw output, including failed attempts
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
