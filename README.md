@@ -62,3 +62,18 @@ The 2012 motivating paper and the 2010 limited-processor-sharing paper were chec
 The repository does not pin interpreter or TeX versions. Exact rational records were reproduced in the delivered environment. Timing, PDF metadata, font-dependent pagination, and last-digit display-only floating approximations are not promised identical across systems. The runner flags any CSV difference rather than silently declaring equivalence. No checksum or toolchain-fingerprint manifest is used.
 
 The license covers newly created code and finite generated records only. Cited articles and publisher templates are not redistributed. The mathematical prose is supplied for internal scholarly evaluation, with external dissemination and authorship responsibilities remaining with the named authors.
+
+## Optional vector figures
+
+From the standalone artifact root, install the renderer dependencies if needed
+and generate the PDF figures:
+
+```sh
+python -m pip install "matplotlib==3.10.7" "fonttools==4.66.1"
+python -B scripts/plot_figures.py
+```
+
+Computer Modern is supplied by Matplotlib. The existing Unicode mapping keeps the PDF text aligned with its glyphs; the renderer also writes the analytic table to figures/.
+
+This optional rendering step is separate from the scientific reproduction
+commands and works without a sibling paper directory.
