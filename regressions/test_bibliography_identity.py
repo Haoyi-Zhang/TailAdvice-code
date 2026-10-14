@@ -11,6 +11,19 @@ from check_bibliography import locator, parse_bib, verification_date
 
 
 class BibliographyIdentityTests(unittest.TestCase):
+    def test_ps_source_uses_the_matching_cwi_report(self):
+        with (ROOT / 'literature-calibration.csv').open(newline='', encoding='utf-8') as handle:
+            record = next(r for r in csv.DictReader(handle) if r['id'] == 'I05')
+        expected = 'https://ir.cwi.nl/pub/4678/04678D.pdf'
+        self.assertEqual(record['full_text'], expected)
+        self.assertIn('PNA-R9802', record['version_inspected'])
+        self.assertIn('1998', record['version_inspected'])
+        with (ROOT / 'external_resources.csv').open(newline='', encoding='utf-8') as handle:
+            resource = next(r for r in csv.DictReader(handle)
+                            if r['name'].startswith('Full-paper calibration I05:'))
+        self.assertEqual(resource['scholarly_or_official_url'], expected)
+        self.assertIn('PNA-R9802', resource['acquisition_method'])
+
     def test_nudge_m_uses_exact_historical_record(self):
         entry = next(e for e in parse_bib(ROOT / 'proofs/references.bib')
                      if e['key'] == 'charlet2024')
