@@ -9,10 +9,14 @@ from __future__ import annotations
 
 import argparse
 import csv
+from datetime import date, datetime, timezone
 import json
 from pathlib import Path
 import re
-import resource
+try:
+    import resource
+except ImportError:
+    resource = None
 import time
 from typing import Dict, Iterable, List, Tuple
 
@@ -149,12 +153,21 @@ def write_summary(path: Path, rows: List[Tuple[str, object]]) -> None:
         writer.writerows(rows)
 
 
+def verification_date(value: str, *, today: date | None = None) -> date:
+    checked = date.fromisoformat(value)
+    current = today if today is not None else datetime.now(timezone.utc).date()
+    if checked > current:
+        raise ValueError("future verification date")
+    return checked
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=ROOT / "results")
     args = parser.parse_args()
     start = time.perf_counter()
-    before = resource.getrusage(resource.RUSAGE_SELF)
+    cpu_start = time.process_time()
+    before = resource.getrusage(resource.RUSAGE_SELF) if resource is not None else None
 
     bib_path = ROOT / "proofs" / "references.bib"
     entries = parse_bib(bib_path)
@@ -167,6 +180,7 @@ def main() -> None:
     ledger_by_key = {row["key"]: row for row in ledger}
 
     errors: List[str] = []
+    checked_dates: List[date] = []
     if len(entries) < 55:
         errors.append("bibliography has fewer than 55 entries")
     if len(entries) != 72:
@@ -236,8 +250,10 @@ def main() -> None:
         for name, value in expected.items():
             if row.get(name, "") != value:
                 errors.append(f"{key}: ledger field {name} disagrees with BibTeX/citation corpus")
-        if row.get("verification_date") != "2026-09-16":
-            errors.append(f"{key}: unexpected verification date")
+        try:
+            checked_dates.append(verification_date(row.get("verification_date", "")))
+        except ValueError as exc:
+            errors.append(f"{key}: invalid verification date: {exc}")
         if not row.get("verification_basis") or not row.get("checked_fields"):
             errors.append(f"{key}: incomplete verification provenance")
 
@@ -254,7 +270,7 @@ def main() -> None:
     if len(ledger) != len(entries) or set(ledger_by_key) != key_set:
         errors.append("verification ledger key set or row count disagrees with bibliography")
 
-    after = resource.getrusage(resource.RUSAGE_SELF)
+    after = resource.getrusage(resource.RUSAGE_SELF) if resource is not None else None
     report = {
         "scope": "offline bibliographic integrity and citation-coverage audit; not a full-text theorem verification",
         "bibliography_entries": len(entries),
@@ -270,13 +286,14 @@ def main() -> None:
         "duplicate_persistent_identifiers": duplicate_ids,
         "duplicate_normalized_titles": duplicate_titles,
         "approved_distinct-version_title_groups": [sorted(group) for group in sorted(ALLOWED_VERSION_TITLE_GROUPS, key=lambda item: sorted(item))],
-        "verification_date": "2026-09-16",
+        "verification_date": max(checked_dates).isoformat() if checked_dates else None,
         "network_used": False,
         "errors": errors,
         "status": "passed" if not errors else "failed",
         "wall_seconds": time.perf_counter() - start,
-        "cpu_seconds": after.ru_utime + after.ru_stime - before.ru_utime - before.ru_stime,
-        "peak_rss_bytes": after.ru_maxrss * 1024,
+        "cpu_seconds": (after.ru_utime + after.ru_stime - before.ru_utime - before.ru_stime)
+            if after is not None else time.process_time() - cpu_start,
+        "peak_rss_bytes": after.ru_maxrss * 1024 if after is not None else None,
     }
     args.output_dir.mkdir(parents=True, exist_ok=True)
     (args.output_dir / "bibliography.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

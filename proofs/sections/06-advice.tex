@@ -71,7 +71,7 @@ The constants in~\eqref{eq:uniform-slack-tail} are uniform over the selected loa
 Taking $\eps\downarrow0$ in the inflation bound and combining with Proposition~\ref{prop:covering} establishes the infimum in Theorem~\ref{thm:advice-intro} for ideal real-valued public boundaries. The next subsection shows that finite rational descriptions attain the same infimum. In neither construction is $\eps=0$ used as a valid positive-theorem parameter.
 
 \subsection{Environment messages are not input-advice tapes}\label{sec:message-vs-advice}
-The covering theorem uses the cardinality of a fixed policy collection, but its oracle is weaker than the usual advice-on-tape oracle in online algorithms.  In classical advice complexity, the oracle may inspect the realized request sequence and encode information tailored to that sequence~\cite{bocken2009,hromkovic2010,emek2011,komm2011,boyar2016}.  Here the message is chosen from $(\lambda,F)$ before the arrivals and service marks are realized.  Conditional on the selected code, every busy cycle remains random and independent of that choice.  This distinction is indispensable to the obstruction: an oracle that identified the future large-root cycle could encode scheduling information that our model expressly withholds.
+The covering theorem uses the cardinality of a fixed policy collection, but its oracle is weaker than the usual advice-on-tape oracle in online algorithms. In classical advice complexity, the oracle may inspect the realized request sequence and encode information tailored to that sequence~\cite{bocken2009,hromkovic2010,emek2011}. Work relating advice to barely random algorithms~\cite{komm2011} and the survey of \cite{boyar2016} provide further context. Here the message is chosen from $(\lambda,F)$ before the arrivals and service marks are realized. Conditional on the selected code, every busy cycle remains random and independent of that choice. This distinction is indispensable to the obstruction: an oracle that identified the future large-root cycle could encode scheduling information that our model expressly withholds.
 
 There are three separate bit counts.  First, $\lceil\log_2 M\rceil$ bits identify one code when the message is fixed length.  Second, the public collection must describe $M$ policies and their numerical parameters.  Third, an implementation or certifier must determine which public interval contains the environment parameter.  The theorem optimizes the first resource while Sections~\ref{sec:encoding} and the selection analysis account for the latter two.  A short index does not make an irrational boundary or an exponentially large public table free.
 
@@ -85,7 +85,7 @@ Suppose $u$ and $v$ are rational public inputs. Exact geometric boundaries can b
  q_j=\frac1D\min\left\{n\in\mathbb Z_{\geq0}:
        (n/D)^M\geq u^{M-j}v^j\right\}.
 \end{equation}
-All comparisons in this definition are rational, hence can be made by integer multiplication and comparison. They do not require evaluating an inexact $M$th root.
+The implementation clears denominators once and compares integer powers with the resulting threshold. All boundaries remain exact; no inexact $M$th root is needed.
 
 For sufficiently large $D$,
 \begin{equation}\label{eq:rational-approx}
@@ -122,7 +122,7 @@ Let $L$ bound the binary lengths of the rational numerators and denominators of 
 \end{equation}
 bits, separate from its selected index.
 
-To obtain one boundary in~\eqref{eq:rational-boundary}, binary search among the possible numerators requires $O(L+\log D)$ comparisons. Clearing denominators turns each into a comparison of integers with $O(M(L+\log D))$ bits. Across the table there are $O(M(L+\log D))$ such comparisons; integer powers and products can be computed by ordinary exact arithmetic. This is polynomial in the explicitly represented table dimensions. When $M=2^b$, both the table and its construction may be exponential in the advice budget $b$. No claim of an implicitly succinct policy collection follows from a short index.
+To obtain one boundary in~\eqref{eq:rational-boundary}, binary search among the possible numerators requires $O(L+\log D)$ comparisons. Clearing denominators turns each into a comparison of integers with $O(M(L+\log D))$ bits. Across the table there are $O(M(L+\log D))$ such comparisons; integer powers and products can be computed by ordinary exact arithmetic. This is polynomial in the explicitly represented table dimensions. When $M=2^b$, both the table and its construction may be exponential in the advice budget $b$. The short index selects an entry in that explicitly represented collection.
 
 The theoretical oracle can classify a real load relative to public thresholds. Exact root arithmetic for the public boundaries does not require the oracle to transmit an exact real load. Strict slack also allows a certified interval of loads to be used instead.
 
@@ -152,7 +152,7 @@ For example, an analytic target $A>H_{\alpha,p}$ on the displayed upper bound is
 \[
  s\geq\frac{d}{d-1},\qquad d=(A/H_{\alpha,p})^{1/\alpha}>1.
 \]
-This is a sufficient parameter rule. We do not have a matching lower bound for the best possible tail constant at a given inflation, so the curve in~\eqref{eq:constant-tradeoff} is not asserted to be a Pareto frontier.
+This is a sufficient parameter rule. A matching lower bound for the best possible tail constant at a given inflation remains open; the curve in~\eqref{eq:constant-tradeoff} supplies achievable sufficient bounds.
 
 The number of fixed-length advice bits can likewise be stated without obscuring equality. To achieve inflation at most $\gamma>1$, a necessary condition is
 \begin{equation}\label{eq:bits-necessary}

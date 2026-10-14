@@ -164,12 +164,12 @@ $O(\Fbar(x))$ and $\int_0^\infty\Fbar(x)\,dx=\E B<\infty$.
 At $\alpha=2$, this tail-order comparison alone does not decide mean-response integrability.
 
 \subsection{Quantifiers and the remaining boundary}
-Together with Theorem~\ref{thm:guard-tail}, Theorem~\ref{thm:obstruction} proves Theorem~\ref{thm:boundary-intro}. Figure~\ref{fig:phase} displays the strict separation. The upper region means that a suitable policy exists, not that every policy with a larger competitive factor has a good tail. A policy can always have a loose advertised factor; the result about exact factors uses Theorem~\ref{thm:guard-tight}.
+Together, Theorems~\ref{thm:guard-tail} and~\ref{thm:obstruction} prove Theorem~\ref{thm:boundary-intro}. Figure~\ref{fig:phase} plots the analytic boundary $C=1/(1-\rho)$. At each fixed load, guarded sharing realizes every factor strictly above it with a job-size-order tail, while the obstruction excludes that guarantee below it for eligible policies. The upper region is an existence result: a loose advertised factor alone does not characterize a policy's tail. Exact factors follow from Theorem~\ref{thm:guard-tight}; the equality case remains open.
 
 \begin{figure}[t]
 \centering
 \input{figures/load-boundary}
-\caption{The unit-speed strict boundary. For a fixed load, every competitive factor strictly above the curve is realized by guarded sharing with a job-size-order tail. Factors strictly below it are impossible for eligible policies with that tail guarantee. The curve itself is not classified. The curve is the analytic function $1/(1-\rho)$, not an empirical fit.}\label{fig:phase}
+\caption{Strict unit-speed boundary in load and competitive factor.}\label{fig:phase}
 \end{figure}
 
 There are three important exclusions in the converse. A policy that knows the final input horizon need not behave the same on a finite prefix and on an infinite queue, so~\eqref{eq:prefix-opt} cannot be transferred to it without additional work. A message that encodes the future realization likewise invalidates the independence used in~\eqref{eq:cycle-lower}. A bound only in expectation over a policy's randomness does not force pathwise root completion on $E_b$. None is silently included in the theorem.

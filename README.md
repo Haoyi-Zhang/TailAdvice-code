@@ -20,6 +20,8 @@ python reproduce.py --with-proof-pdf
 
 The runner copies the necessary sources into a fresh temporary directory, executes one command at a time with a 45-second wall timeout, and kills the child's process group on timeout. It runs the 83-instance pilot, the 461-instance full enumeration, the algebra/codebook checks, six tightness examples, the sixteen-interface exact proof-obligation audit, the no-network 22-paper calibration validator, the 72-record bibliography/citation audit, a separately implemented 2,856-vector simulator differential, and fourteen unit tests (eleven scheduling/boundary tests and three rational-root regressions). The optional flag adds a standalone proof-document build. It compares all non-runtime fields in eight JSON reports and exact bytes in ten CSV records with the retained results. A new execution report, including each command's raw stdout/stderr and resource measurements, is written to `results/reproduction.json`, or to the path supplied with `--output`. The supplied reproduction/resource reports retain historical POSIX runs with eleven tests; their timings and memory figures are not current-host measurements of the fourteen-test suite. Python optimization flags are refused because assertions are part of these finite checks. Omitting the optional proof-PDF flag runs just the standard-library checks.
 
+CI additionally runs three bibliography regressions for the exact historical Nudge-M locator, UTC check dates, and malformed or future dates. The standalone bibliography checker also runs on Windows; peak RSS is unavailable there and is reported as null. The full isolated reproduction remains a POSIX workflow.
+
 The components can also be invoked directly:
 
 ```sh
