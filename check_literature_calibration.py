@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the retained 12/5/5 full-paper structural calibration without network access.
+"""Validate the retained 12/5/5 source-calibration records without network access.
 
 This checker validates record completeness and internal consistency. It does not
 verify the scholarly claims, certify novelty, or independently review proofs.
@@ -12,7 +12,10 @@ from datetime import date
 import json
 from pathlib import Path
 import re
-import resource
+try:
+    import resource
+except ModuleNotFoundError:
+    resource = None
 import time
 
 ROOT = Path(__file__).resolve().parent
@@ -32,6 +35,21 @@ EXPECTED_IDS = {
 }
 BANDS = {'compact (<=20)','medium (21–50)','large (>50)'}
 STATUS = 'full_text_structural_read'
+SCOPED_STATUS = 'claim_scoped_report_read'
+
+
+def reading_status_error(row: dict) -> str | None:
+    """Keep a scoped original-report reading distinct from a full-article record."""
+    if row.get('id') == 'I05':
+        if row.get('status') != SCOPED_STATUS:
+            return 'I05 requires its claim-scoped report status'
+        if row.get('full_text') != 'https://ir.cwi.nl/pub/4678/04678D.pdf':
+            return 'I05 must locate the matching CWI report'
+        if 'PNA-R9802' not in row.get('version_inspected', ''):
+            return 'I05 must identify the original report version'
+    elif row.get('status') != STATUS:
+        return 'unexpected reading status'
+    return None
 
 
 def main() -> None:
@@ -41,7 +59,7 @@ def main() -> None:
     parser.add_argument('--output-dir', type=Path, default=ROOT/'results')
     args=parser.parse_args()
     started=time.perf_counter()
-    before=resource.getrusage(resource.RUSAGE_SELF)
+    before=time.process_time()
     csv_path=ROOT/'literature-calibration.csv'
     md_path=ROOT/'literature-calibration.md'
     with csv_path.open(newline='',encoding='utf-8') as f:
@@ -66,8 +84,9 @@ def main() -> None:
         missing=[field for field in FIELDS if not r.get(field,'').strip()]
         if missing:
             failures.append(f'line {line} missing {missing}')
-        if r.get('status') != STATUS:
-            failures.append(f'line {line} has unexpected status')
+        status_error=reading_status_error(r)
+        if status_error:
+            failures.append(f'line {line}: {status_error}')
         if r.get('bibliography_size_band') not in BANDS:
             failures.append(f'line {line} has unexpected bibliography band')
         for field in ('official_record','full_text'):
@@ -95,20 +114,23 @@ def main() -> None:
     missing_ids=[identifier for identifier in sorted(EXPECTED_IDS) if f'| {identifier} |' not in markdown]
     if missing_ids:
         failures.append(f'markdown omits identifiers: {missing_ids}')
-    for phrase in ('**12** full-text structural reads','**5** full-text structural reads',
-                   'not a proof of global novelty','does **not** certify worldwide originality'):
+    for phrase in ('not a proof of global novelty','does **not** certify worldwide originality'):
         if phrase not in markdown:
             failures.append(f'markdown omits required boundary phrase: {phrase}')
     group_rows=[]
     for group in ('same_venue','influential','adjacent'):
         subset=[r for r in rows if r['group']==group]
+        depths=Counter(r['status'] for r in subset)
+        markdown_row=f"| {group} | {len(subset)} | {depths.get(STATUS,0)} | {depths.get(SCOPED_STATUS,0)} |"
+        if markdown_row not in markdown:
+            failures.append(f'markdown reading-depth counts differ for {group}')
         group_rows.append({
             'group':group,
             'paper_count':len(subset),
             'earliest_year':min(int(r['year']) for r in subset),
             'latest_year':max(int(r['year']) for r in subset),
             'unique_venues':len({r['venue'] for r in subset}),
-            'status':STATUS,
+            'status':next(iter(depths)) if len(depths)==1 else 'mixed_recorded_reading_depths',
         })
     args.output_dir.mkdir(parents=True,exist_ok=True)
     summary_path=args.output_dir/'literature-calibration-summary.csv'
@@ -119,9 +141,9 @@ def main() -> None:
         writer.writerow({'group':'total','paper_count':len(rows),'earliest_year':min(years),
                          'latest_year':max(years),'unique_venues':len({r['venue'] for r in rows}),
                          'status':'passed' if not failures else 'failed'})
-    after=resource.getrusage(resource.RUSAGE_SELF)
+    after=time.process_time()
     report={
-        'scope':'internal consistency of a 12/5/5 full-paper structural calibration; not a novelty certificate or proof review',
+        'scope':'internal consistency of 12/5/5 source-calibration records and their recorded reading depths',
         'source_records':len(rows),
         'group_counts':{k:counts.get(k,0) for k in ('same_venue','influential','adjacent')},
         'unique_identifiers':len(set(ids)),
@@ -129,6 +151,7 @@ def main() -> None:
         'year_range':[min(years),max(years)] if years else None,
         'checked_on_values':sorted(set(checked_dates)),
         'required_fields_per_record':len(FIELDS),
+        'reading_status_counts':dict(Counter(r['status'] for r in rows)),
         'markdown_identifiers_present':len(EXPECTED_IDS)-len(missing_ids),
         'network_used':False,
         'scholarly_content_reverified_by_checker':False,
@@ -137,8 +160,8 @@ def main() -> None:
         'failures':failures,
         'status':'passed_literature_calibration' if not failures else 'failed',
         'wall_seconds':time.perf_counter()-started,
-        'cpu_seconds':after.ru_utime+after.ru_stime-before.ru_utime-before.ru_stime,
-        'peak_rss_bytes':after.ru_maxrss*1024,
+        'cpu_seconds':after-before,
+        'peak_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024 if resource else None,
     }
     report_path=args.output_dir/'literature-calibration.json'
     report_path.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')

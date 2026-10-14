@@ -1,5 +1,5 @@
 {
-  "scope": "internal consistency of a 12/5/5 full-paper structural calibration; not a novelty certificate or proof review",
+  "scope": "internal consistency of 12/5/5 source-calibration records and their recorded reading depths",
   "source_records": 22,
   "group_counts": {
     "same_venue": 12,
@@ -13,9 +13,14 @@
     2025
   ],
   "checked_on_values": [
-    "2026-09-15"
+    "2026-09-15",
+    "2026-10-14"
   ],
   "required_fields_per_record": 24,
+  "reading_status_counts": {
+    "full_text_structural_read": 21,
+    "claim_scoped_report_read": 1
+  },
   "markdown_identifiers_present": 22,
   "network_used": false,
   "scholarly_content_reverified_by_checker": false,
@@ -23,7 +28,7 @@
   "independent_review": false,
   "failures": [],
   "status": "passed_literature_calibration",
-  "wall_seconds": 0.001083410000319418,
-  "cpu_seconds": 0.0010670000000000401,
-  "peak_rss_bytes": 95461376
+  "wall_seconds": 0.0009718000001157634,
+  "cpu_seconds": 0.0,
+  "peak_rss_bytes": null
 }

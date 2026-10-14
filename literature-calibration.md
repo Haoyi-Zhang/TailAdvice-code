@@ -1,15 +1,21 @@
-# Full-paper structural calibration
+# Literature calibration
 
-This matrix records the completed **12 same-venue / 5 influential / 5 adjacent-venue** reading protocol used to calibrate the paper’s theorem presentation, comparison boundaries, and evidence story. It is an author-side structural reading record, not a citation-metric exercise, award claim, independent novelty opinion, or line-by-line validation of any paper’s proof. Publisher/article bytes are not redistributed. Stable records and lawful author/preprint copies are listed in the CSV.
+This matrix records **12 same-venue / 5 influential / 5 adjacent-venue** sources used to calibrate theorem presentation, comparison boundaries, and evidence organization. The CSV distinguishes retained structural-reading records from claim-scoped original-report reading. Publisher/article bytes are not redistributed. Stable records and lawful author/preprint copies are listed in the CSV.
 
 ## Scope and completion
 
 - Same venue (`SIAM Journal on Computing`): **12** full-text structural reads.
-- Influential/foundational scheduling and queueing: **5** full-text structural reads.
+- Influential/foundational scheduling and queueing: **4** retained full-text structural-reading records and **1** claim-scoped original-report reading.
 - Adjacent venues and recent directions: **5** full-text structural reads.
-- Each read covered the problem framing, formal model, stated theorem boundary, proof spine, conclusion/limitations, references, and the role of figures/tables.
+- Structural-reading records cover problem framing, model, theorem boundary, proof organization and presentation. I05 uses the 1998 CWI PNA-R9802 model and sojourn-asymptotic passages specified in the CSV.
 - Bibliography-size bands are descriptive (`compact <=20`, `medium 21–50`, `large >50`), not exact citation audits.
 - “No direct match” below means no paper in this declared 22-paper calibration has the same full conjunction of quantifiers. It is not a proof of global novelty.
+
+| Group | Sources | Retained structural-reading records | Claim-scoped report readings |
+|---|---:|---:|---:|
+| same_venue | 12 | 12 | 0 |
+| influential | 5 | 4 | 1 |
+| adjacent | 5 | 5 | 0 |
 
 ## Per-paper map
 
