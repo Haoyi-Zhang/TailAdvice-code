@@ -39,6 +39,21 @@ class BibliographyIdentityTests(unittest.TestCase):
         self.assertEqual(verification_date('2026-10-14', today=today), today)
         self.assertEqual(verification_date('2026-09-16', today=today), date(2026, 9, 16))
 
+    def test_predictions_citation_uses_the_read_author_survey(self):
+        entry = next(e for e in parse_bib(ROOT / 'proofs/references.bib')
+                     if e['key'] == 'mitzenmacher2022')
+        self.assertEqual(entry['entry_type'], 'misc')
+        self.assertEqual(entry['fields']['year'], '2020')
+        self.assertEqual(locator(entry),
+                         ('arxiv', '2006.09123v1', 'https://arxiv.org/abs/2006.09123v1'))
+        self.assertNotIn('doi', entry['fields'])
+        with (ROOT / 'bibliography-verification.csv').open(newline='', encoding='utf-8') as handle:
+            record = next(r for r in csv.DictReader(handle)
+                          if r['key'] == 'mitzenmacher2022')
+        self.assertEqual(record['persistent_id'], locator(entry)[1])
+        self.assertEqual(record['stable_url'], locator(entry)[2])
+        self.assertEqual(record['year'], '2020')
+
     def test_future_and_malformed_dates_are_rejected(self):
         for value in ('2026-10-15', '2026-13-14', '', 'not-a-date'):
             with self.subTest(value=value), self.assertRaises(ValueError):

@@ -10,8 +10,8 @@
   "nocite_commands": 0,
   "verification_ledger_rows": 72,
   "locator_counts": {
-    "doi": 63,
-    "arxiv": 4,
+    "doi": 62,
+    "arxiv": 5,
     "isbn": 3,
     "official_url": 2
   },
@@ -28,11 +28,11 @@
       "kalyan2003"
     ]
   ],
-  "verification_date": "2026-10-14",
+  "verification_date": "2026-10-15",
   "network_used": false,
   "errors": [],
   "status": "passed",
-  "wall_seconds": 0.00871989999723155,
+  "wall_seconds": 0.003910699997504707,
   "cpu_seconds": 0.0,
   "peak_rss_bytes": null
 }
