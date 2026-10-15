@@ -1,6 +1,6 @@
-# Adversarial proof-interface audit
+# Proof-interface map
 
-This document is an **author-side artifact-only audit** of the mathematical interfaces in *Finite Load Advice for Tail-Order and Maximum-Flow Guarantees*. It is deliberately more hostile than a prose summary: each item states a failure mode that would invalidate a claim, the repair or argument now present, the executable evidence that can expose a finite analogue, and the risk that remains outside execution. It is not independent review, a proof-assistant certificate, or permission to treat an unresolved boundary as proved.
+This author-side map covers sixteen mathematical interfaces in *Finite Load Advice for Tail-Order and Maximum-Flow Guarantees*. Each item links a failure condition to the written argument, finite diagnostics, and limits of executable checking. It is not independent review or a proof-assistant certificate.
 
 ## Audit protocol
 
@@ -179,7 +179,3 @@ The retained negative controls preserve enough surrounding structure to be discr
 - a time-weighted regenerative denominator fails an arrival-average identity;
 - substituting equality into the strict deficit construction yields no admissible positive parameter interval rather than a fabricated pass;
 - independent simulator mutations change the exact completion vector even though their surrounding event logic remains executable.
-
-## Audit disposition
-
-No P0 or internally repairable P1 remains in these sixteen interfaces: each has a written argument, an explicit quantifier boundary, and finite diagnostics where an exact diagnostic is meaningful. The retained external correctness hold is narrower and honest: a mathematically independent expert review or a full formalization could still find an error that author-side analysis and finite checks miss. The scientific equality boundary and excluded model extensions are nonclaims, not silently deferred proof steps.
